@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Div Example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+        }
+        .container {
+            max-width: 500px; /* Adjust the width as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="centered-container">
+        <div class="container mt-5">
+            <h2 class="mb-4">Add New Category</h2>
+            <form action="/addcategory" method="POST">
+                <div class="form-group">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Add Category</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

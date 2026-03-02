@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "672b0afb70b3055cb762ff3f"
+  },
+  "name": "Ahmad",
+  "email": "adam@gamil.com",
+  "message": "hi how are ",
+  "date": {
+    "$date": "2024-11-06T06:21:47.486Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735e176ed474e6adc007668"
+  },
+  "name": "asdh",
+  "email": "umair@gamil.com",
+  "message": "dfghj",
+  "date": {
+    "$date": "2024-11-14T11:39:34.415Z"
+  },
+  "__v": 0
+}]

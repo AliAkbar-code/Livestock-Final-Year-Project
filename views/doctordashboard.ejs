@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        /* Sidebar styling */
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 1rem;
+            font-size: 1.25rem;
+            color: #fff;
+            background: #343a40;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #sidebar-wrapper .list-group-item {
+            padding: 1rem;
+            border: none;
+            color: #fff;
+        }
+
+        #sidebar-wrapper .list-group-item.active {
+            background: #495057;
+        }
+
+        #page-content-wrapper {
+            width: 100%;
+            transition: margin 0.25s ease-out;
+            padding: 2rem;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        #wrapper.toggled #page-content-wrapper {
+            margin-left: 15rem;
+        }
+
+        /* Top Navbar styling */
+        .navbar {
+            padding: 0.75rem 1rem;
+        }
+
+        .navbar .navbar-toggler {
+            margin-right: 1rem;
+        }
+
+        .container-fluid {
+            padding: 2rem;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-footer {
+            background: none;
+            border-top: none;
+        }
+
+        .search-bar {
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+            #page-content-wrapper {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            #wrapper.toggled #page-content-wrapper {
+                margin-left: 0;
+            }
+     
+
+        }
+        #wrapper.toggled #page-content-wrapper {
+    margin-left: 0rem;
+}
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="d-flex" id="wrapper">
+        <div class="bg-dark border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-white">Doctor Panel</div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('dashboard')">
+                    <i class="bi bi-house-door"></i> Dashboard
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('user-management')">
+                    <i class="bi bi-person"></i> Patient Management
+                </a>
+                
+               
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('notifications-management')">
+                    <i class="bi bi-bell"></i> Notifications
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('doctor-requests')">
+                    <i class="bi bi-plus-circle"></i> Requests
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('fooders')">
+                    <i class="bi bi-food"></i> Fooder Management
+                </a>
+                
+                
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="ty">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" style="margin: -1.5rem;" >
+                <button class="btn btn-primary" id="menu-toggle">
+                    <i class="bi bi-list"></i> Menu
+                </button>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <input class="form-control me-2 search-bar" type="search" id="search" placeholder="Search" aria-label="Search">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-person-circle"></i> Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-bell"></i> Notifications</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href=""> Add Animals</a>
+                        </li> -->
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href=""> Add Categories</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <!-- Default view -->
+                <div id="dashboard-content" class="module-content">
+                    <h1 class="mt-4">Doctor Dashboard</h1>
+                    <p>Welcome to your admin panel. This is where you can manage all aspects of the website.</p>
+                    
+                </div>
+
+                <!-- Module contents -->
+                <div id="user-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Patient Management</h1>
+                    <p>Manage users by adding, removing, and updating user information.</p>
+                    <button class="btn btn-primary">Add </button>
+                    <button class="btn btn-secondary">Remove </button>
+                    <button class="btn btn-info">Update</button>
+                </div>
+
+             
+
+              
+
+                <div id="notifications-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Notifications </h1>
+                    <p>Manage notifications and alerts. Set up notifications for various events.</p>
+                    <a href="/doctorChat" class="btn btn-primary">See Chat</a>
+                    <button class="btn btn-secondary">View Notifications</button>
+                </div>
+
+                <div id="doctor-requests-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Requests</h1>
+                    <p>Manage doctor requests for services. Approve, reject, or update requests.</p>
+                    <button class="btn btn-primary">Approve Request</button>
+                    <button class="btn btn-secondary">Reject Request</button>
+                </div>
+
+               
+
+                <div id="feedback-support-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Feedback & Support</h1>
+                    <p>Manage feedback and support requests from users.</p>
+                    <button class="btn btn-primary">View Feedback</button>
+                    <button class="btn btn-secondary">Respond to Support Requests</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle the sidebar
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("wrapper").classList.toggle("toggled");
+        });
+
+        // Show the appropriate content section based on menu selection
+        function showContent(contentId) {
+            // Hide all content sections
+            var contents = document.getElementsByClassName("module-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+            // Show the selected content section
+            document.getElementById(contentId + "-content").style.display = "block";
+        }
+    </script>
+</body>
+</html>

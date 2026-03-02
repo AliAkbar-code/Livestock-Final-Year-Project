@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "66c83a860a240861dce11766"
+  },
+  "username": "aliakbar200",
+  "email": "aliakbar@gmail.com",
+  "password": "123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e3c0ded6ca5c9c11690e78"
+  },
+  "username": "umair196",
+  "email": "umairr@gamil.com",
+  "password": "1234",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6716959d261fcf15d7fda607"
+  },
+  "username": "ahmad168",
+  "email": "ahmad168@gmail.com",
+  "password": "123",
+  "__v": 0
+}]

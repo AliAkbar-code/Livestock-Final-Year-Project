@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="/logo.jpeg" style="border-radius: 50%;">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        .container {
+            max-width: 700px;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        h1, h2 {
+            text-align: center;
+            font-weight: bold;
+            color: rgb(3, 170, 3);
+        }
+        .form-container .form-group {
+            position: relative;
+        }
+        .form-container .form-group i {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #6c757d;
+        }
+        .form-container .form-group input {
+            padding-right: 30px;
+        }
+        .toggle-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: rgb(3, 170, 3);
+            border: none;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title -->
+        <h1>Livestock HealthMark</h1>
+        <p class="text-center">"Empowering farmers for a healthier tomorrow"</p>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <!-- Login Form -->
+            <div id="login-form">
+                <h2>Login</h2>
+                <form action="/login" method="post">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="login-username" name="username" class="form-control" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                    <div class="toggle-link">
+                        <a href="#">Forget password</a>
+                    </div>
+                    <div class="toggle-link">
+                        Don't have an account? <a href="#" id="show-signup"> Sign up</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signup-form" style="display:none;">
+                <h2>Sign Up</h2>
+                <form action="/signup" method="post">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signup-name" name="fullName" class="form-control" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-username">Username</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signup-username" name="username" class="form-control" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email Address</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signup-email" name="email" class="form-control" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signup-password" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label for="signup-phone">Phone Number</label>
+                        <i class="fas fa-phone"></i>
+                        <input type="text" id="signup-phone" name="phone" class="form-control" placeholder="Phone Number" required>
+                    </div>
+                  
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="signup-terms" class="form-check-input" required>
+                        <label for="signup-terms" class="form-check-label">I agree to the Terms and Conditions</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                    <div class="toggle-link">
+                        Already have an account?  <a href="#" id="show-login">Log In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('show-signup').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+        });
+
+        document.getElementById('show-login').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        });
+
+        
+    // Validation function for both Login and Signup forms
+    // function validateForm(event, formType) {
+    //     event.preventDefault();
+    //     let isValid = true;
+
+    //     // Clear all existing error messages
+    //     document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+    //     // Login form validation
+    //     if (formType === 'login') {
+    //         const username = document.getElementById('login-username');
+    //         const password = document.getElementById('login-password');
+
+    //         if (username.value.trim() === '') {
+    //             showError(username, 'Username is required.');
+    //             isValid = false;
+    //         }
+
+    //         if (password.value.length < 8) {
+    //             showError(password, 'Password must be at least 8 characters.');
+    //             isValid = false;
+    //         }
+    //     }
+
+    //     // Signup form validation
+    //     if (formType === 'signup') {
+    //         const fullName = document.getElementById('signup-name');
+    //         const username = document.getElementById('signup-username');
+    //         const email = document.getElementById('signup-email');
+    //         const password = document.getElementById('signup-password');
+    //         const phone = document.getElementById('signup-phone');
+    //         const terms = document.getElementById('signup-terms');
+
+    //         if (fullName.value.trim() === '') {
+    //             showError(fullName, 'Full name is required.');
+    //             isValid = false;
+    //         }
+
+    //         if (username.value.trim() === '') {
+    //             showError(username, 'Username is required.');
+    //             isValid = false;
+    //         }
+
+    //         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    //         if (!emailPattern.test(email.value)) {
+    //             showError(email, 'Please enter a valid email address.');
+    //             isValid = false;
+    //         }
+
+    //         if (password.value.length < 8) {
+    //             showError(password, 'Password must be at least 8 characters.');
+    //             isValid = false;
+    //         }
+
+    //         const phonePattern = /^[0-9]{10}$/; // Adjust based on phone format
+    //         if (!phonePattern.test(phone.value)) {
+    //             showError(phone, 'Enter a valid phone number with 10 digits.');
+    //             isValid = false;
+    //         }
+
+    //         if (!terms.checked) {
+    //             showError(terms, 'You must agree to the Terms and Conditions.');
+    //             isValid = false;
+    //         }
+    //     }
+
+    //     if (isValid) {
+    //         event.target.submit(); // Submit form if valid
+    //     }
+    // }
+
+    // // Show error message function
+    // function showError(element, message) {
+    //     const errorDiv = document.createElement('div');
+    //     errorDiv.classList.add('error-message');
+    //     errorDiv.style.color = 'red';
+    //     errorDiv.style.fontSize = '12px';
+    //     errorDiv.textContent = message;
+    //     element.parentElement.appendChild(errorDiv);
+    // }
+
+    // // Attach validation to forms
+    // document.querySelector('#login-form form').addEventListener('submit', (e) => validateForm(e, 'login'));
+    // document.querySelector('#signup-form form').addEventListener('submit', (e) => validateForm(e, 'signup'));
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        /* Sidebar styling */
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 1rem;
+            font-size: 1.25rem;
+            color: #fff;
+            background: #343a40;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #sidebar-wrapper .list-group-item {
+            padding: 1rem;
+            border: none;
+            color: #fff;
+        }
+
+        #sidebar-wrapper .list-group-item.active {
+            background: #495057;
+        }
+
+        #page-content-wrapper {
+            width: 100%;
+            transition: margin 0.25s ease-out;
+            padding: 2rem;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        #wrapper.toggled #page-content-wrapper {
+            margin-left: 15rem;
+        }
+
+        /* Top Navbar styling */
+        .navbar {
+            padding: 0.75rem 1rem;
+        }
+
+        .navbar .navbar-toggler {
+            margin-right: 1rem;
+        }
+
+        .container-fluid {
+            padding: 2rem;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-footer {
+            background: none;
+            border-top: none;
+        }
+
+        .search-bar {
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+            #page-content-wrapper {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            #wrapper.toggled #page-content-wrapper {
+                margin-left: 0;
+            }
+     
+
+        }
+        #wrapper.toggled #page-content-wrapper {
+    margin-left: 0rem;
+}
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="d-flex" id="wrapper">
+        <div class="bg-dark border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-white">Admin Panel</div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('dashboard')">
+                    <i class="bi bi-house-door"></i> Dashboard
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('user-management')">
+                    <i class="bi bi-person"></i> User Management
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('category-management')">
+                    <i class="bi bi-person"></i> Manage Categories
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('services-management')">
+                    <i class="bi bi-briefcase"></i> Seller Management
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('seller-management')">
+                    <i class="bi bi-box"></i> Seller & Product Management
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('orders-management')">
+                    <i class="bi bi-basket"></i> Doctor Managnment
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('notifications-management')">
+                    <i class="bi bi-bell"></i> Notifications & Alerts
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('doctor-requests')">
+                    <i class="bi bi-plus-circle"></i> Doctor Requests
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('fooders')">
+                    <i class="bi bi-food"></i> Fooder Management
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('feedback-support')">
+                    <i class="bi bi-chat-dots"></i> Feedback & Support
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showContent('settings')">
+                    <i class="bi bi-gear"></i> Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="ty">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" style="margin: -1.5rem;" >
+                <button class="btn btn-primary" id="menu-toggle">
+                    <i class="bi bi-list"></i> Menu
+                </button>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <!-- <input class="form-control me-2 search-bar" type="search" id="search" placeholder="Search" aria-label="Search"> -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ahmadprofile.ejs" id="profile-link"><i class="bi bi-person-circle"></i> Profile</a>
+                          </li>
+                          
+                          <!-- Admin Profile Modal -->
+                          <div id="adminProfileModal" style="display: none;">
+                            <h3>Admin Profile</h3>
+                            <p><strong>Name:</strong> <span id="adminName"></span></p>
+                            <p><strong>Email:</strong> <span id="adminEmail"></span></p>
+                            <!-- Add more fields as needed -->
+                          </div>
+                       
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="addanimalform"> Add Animals</a>
+                        </li> -->
+                       
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <!-- Default view -->
+                <div id="dashboard-content" class="module-content">
+                    <h1 class="mt-4">Admin Dashboard</h1>
+                    <p>Welcome to your admin panel. This is where you can manage all aspects of the website.</p>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card bg-primary text-white mb-4">
+                                <div class="card-body">User Management</div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="#" onclick="showContent('user-management')">View Details</a>
+                                    <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card bg-warning text-white mb-4">
+                                <div class="card-body">Seller Management</div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="#" onclick="showContent('services-management')">View Details</a>
+                                    <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card bg-success text-white mb-4">
+                                <div class="card-body">Seller & Product Management</div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="#" onclick="showContent('seller-management')">View Details</a>
+                                    <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module contents -->
+                <div id="user-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">User Management</h1>
+                    <p>Manage users by adding, removing, and updating user information.</p>
+                        <!-- <a href="/addcategoryform"><button class="btn btn-primary">Add Categories</button></a> -->
+                        <table class="table mt-4">
+                            <thead>
+                              <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Actions</th> <!-- New column for actions -->
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% if (users.length > 0) { %>
+                                <% users.forEach(user => { %>
+                                  <tr>
+                                    <td><%= user.username %></td> <!-- Render user name dynamically -->
+                                    <td><%= user.email %></td>
+                                    <td><%= user.password %></td>
+                                    <td>
+                                      <!-- Delete Button -->
+                                      <button class="btn btn-danger" onclick="deleteUser('<%= user._id %>')">Delete</button>
+                                    </td>
+                                  </tr>
+                                <% }) %>
+                              <% } else { %>
+                                <tr>
+                                  <td colspan="4">No users found.</td> <!-- Adjusted colspan for new column -->
+                                </tr>
+                              <% } %>
+                            </tbody>
+                          </table>
+                          
+                        
+                    </div>
+                </div>
+               <!-- views/admindashboard.ejs -->
+<div id="category-management-content" class="module-content" style="display: none;">
+    <h1 class="mt-4">Manage Categories</h1>
+    <p>Manage Categories by adding, removing, and updating Categories information.</p>
+    <a href="/addcategoryform"><button class="btn btn-primary">Add Categories</button></a>
+    <ul class="list-group mt-4">
+        <% if (categories.length > 0) { %>
+            <% categories.forEach(category => { %>
+                <li class="list-group-item">
+                    <%= category.name %>
+                </li>
+            <% }) %>
+        <% } else { %>
+            <li class="list-group-item">No categories found.</li>
+        <% } %>
+    </ul>
+    
+</div>
+
+
+                <div id="services-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Seller Management</h1>
+                    <p>Manage services including adding, updating, and removing services provided.</p>
+                    <table class="table mt-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Password</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (sellers.length > 0) { %>
+                                <% sellers.forEach(seller => { %>
+                                    <tr>
+                                        <td><%= seller.username %></td>
+                                        <td><%= seller.email %></td>
+                                        <td><%= seller.password %></td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="3">No sellers found.</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    
+                </div>
+
+                <div id="seller-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Seller & Product Management</h1>
+                    <p>Manage sellers and their products. Add, remove, or update seller information.</p>
+                  <a href="addanimalform">  <button class="btn btn-primary">Add Product</button></a>
+                     <button class="btn btn-secondary">Remove Product</button>
+
+                 
+                    <!-- <button class="btn btn-secondary">Remove products</button> -->
+                    <!-- <button class="btn btn-info">Update Seller</button> -->
+                </div>
+
+                <div id="orders-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Doctor Managnment</h1>
+                    <p>Manage orders and transactions, view and update their statuses.</p>
+                    <table class="table mt-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Password</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (doctors.length > 0) { %>
+                                <% doctors.forEach(doctor => { %>
+                                    <tr>
+                                        <td><%= doctor.username %></td>
+                                        <td><%= doctor.email %></td>
+                                        <td><%= doctor.password %></td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="3">No doctors found.</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    
+                </div>
+
+                <div id="notifications-management-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Notifications & Alerts</h1>
+                    <p>Manage notifications and alerts. Set up notifications for various events.</p>
+                    <div id="messages-container">
+                        <!-- Messages will be populated here -->
+                      </div>
+                </div>
+
+                <div id="doctor-requests-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Doctor Requests</h1>
+                    <p>Manage doctor requests for services. Approve, reject, or update requests.</p>
+                    <button class="btn btn-primary">Approve Request</button>
+                    <button class="btn btn-secondary">Reject Request</button>
+                </div>
+
+                <div id="fooders-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Fooder Management</h1>
+                    <p>Manage fooder resources. Add, remove, or update fooder information.</p>
+                    <button class="btn btn-primary">Add Fooder</button>
+                    <button class="btn btn-secondary">Remove Fooder</button>
+                    <button class="btn btn-info">Update Fooder</button>
+                </div>
+
+                <div id="feedback-support-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Feedback & Support</h1>
+                    <p>Manage feedback and support requests from users.</p>
+                    <button class="btn btn-primary">View Feedback</button>
+                    <button class="btn btn-secondary">Respond to Support Requests</button>
+                </div>
+
+                <div id="settings-content" class="module-content" style="display: none;">
+                    <h1 class="mt-4">Settings</h1>
+                    <p>Configure system settings including security, notifications, and preferences.</p>
+                    <button class="btn btn-primary">Update Settings</button>
+                    <button class="btn btn-secondary">Security Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <script>
+        // Toggle the sidebar
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("wrapper").classList.toggle("toggled");
+        });
+
+        // Show the appropriate content section based on menu selection
+        function showContent(contentId) {
+            // Hide all content sections
+            var contents = document.getElementsByClassName("module-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+                <!-- Bootstrap JS -->
+            // Show the selected content section
+            document.getElementById(contentId + "-content").style.display = "block";
+        }
+
+        
+        
+        function deleteUser(userId) {
+  if (confirm('Are you sure you want to delete this user?')) {
+    fetch(`/delete-user/${userId}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('User deleted successfully');
+        window.location.reload(); // Reload the page after deletion
+      } else {
+        alert('Failed to delete user');
+      }
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      alert('An error occurred while deleting the user');
+    });
+  }
+}
+
+// fetch message 
+async function fetchMessages() {
+    try {
+      const response = await fetch('/admin/messages');
+      const messages = await response.json();
+      
+      const container = document.getElementById('messages-container');
+      container.innerHTML = ''; // Clear any existing content
+      
+      messages.forEach(msg => {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        
+        messageDiv.innerHTML = `
+          <p><strong>Name:</strong> ${msg.name}</p>
+          <p><strong>Email:</strong> ${msg.email}</p>
+          <p><strong>Message:</strong> ${msg.message}</p>
+          <p><strong>Date:</strong> ${new Date(msg.date).toLocaleString()}</p>
+          <hr>
+        `;
+        
+        container.appendChild(messageDiv);
+      });
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      alert('Failed to load messages');
+    }
+  }
+
+  // Fetch messages on page load
+  document.addEventListener('DOMContentLoaded', fetchMessages);
+
+
+
+  document.getElementById('profile-link').addEventListener('click', async function (e) {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/admin/profile');
+      const admin = await response.json();
+      
+      if (response.ok) {
+        document.getElementById('adminName').textContent = admin.username;
+        document.getElementById('adminEmail').textContent = admin.email;
+        
+        // Display the modal or section
+        document.getElementById('adminProfileModal').style.display = 'block';
+      } else {
+        alert(admin.message || 'Failed to load profile');
+      }
+    } catch (error) {
+      console.error('Error fetching admin profile:', error);
+      alert('An error occurred');
+    }
+  });
+    </script>
+</body>
+</html>
+

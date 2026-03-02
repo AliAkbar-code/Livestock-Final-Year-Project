@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Animal</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/logo.jpeg" style="border-radius: 50%;">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      color: #343a40;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group label {
+      font-weight: 500;
+      color: #495057;
+    }
+
+    .form-control {
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+      padding: 10px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 576px) {
+      .container {
+        max-width: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Add New Animal</h2>
+    <form action="/addanimal" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter animal name" required>
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name="age" placeholder="Enter animal age in years" required>
+      </div>
+      <div class="form-group">
+        <label for="breed">Breed</label>
+        <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter animal breed" required>
+      </div>
+      <div class="form-group">
+        <label for="color">Color</label>
+        <input type="text" class="form-control" id="color" name="color" placeholder="Enter animal color" required>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="Enter price in USD" required>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" id="category" name="category" required>
+          <option value="" disabled selected>Select a category</option>
+          <% categories.forEach(category => { %>
+            <option value="<%= category.name %>"><%= category.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="stock">Stock</label> <!-- Updated label to Stock -->
+        <input type="number" class="form-control" id="stock" name="stock" placeholder="Enter the stock available" required min="1">
+      </div>
+      <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mt-4">Add Animal</button>
+    </form>
+</div>
+
+
+  
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

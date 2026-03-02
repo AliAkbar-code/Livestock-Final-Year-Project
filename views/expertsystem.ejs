@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livestock Expert System</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .symptoms-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .symptom-item {
+            display: inline-block;
+        }
+
+        #get-diagnosis {
+            margin-top: 20px;
+        }
+
+        #diagnosis-result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center"><strong>Livestock HealthMark Expert System</strong></h1>
+
+        <!-- Animal Selection -->
+        <div class="form-group" style="font-weight: bold;font-size: 25px;margin-top: 30px; ">
+            <label for="animal-select">Select Animal:</label>
+            <select id="animal-select" class="form-control" onchange="updateSymptoms()">
+                <option value="" style="text-align: center;">-- Select an Animal --</option>
+                <option value="cow">Cow</option>
+                <option value="buffalo">Buffalo</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+                <option value="camel">Camel</option>
+                <option value="sheep">Sheep</option>
+                <option value="goat">Goat</option>
+                <option value="duck">Ducks</option>
+                <option value="chicken">Chicken</option>
+                <option value="rabbit">Rabbit</option>
+                <option value="donkey">Donkey</option>
+                <option value="horse">Horse</option>
+            </select>
+        </div>
+
+        <!-- Symptoms Checklist -->
+        <div id="symptoms-container">
+            <h5 style="font-weight: bold;">Symptoms:</h5>
+            <div id="symptoms-list" class="symptoms-list">
+                <!-- Symptoms will load dynamically -->
+            </div>
+        </div>
+
+        <!-- Get Diagnosis Button -->
+        <button id="get-diagnosis" class="btn btn-primary btn-block" onclick="getDiagnosis()">Get Diagnosis</button>
+
+        <!-- Diagnosis Result -->
+        <div id="diagnosis-result" class="alert alert-info mt-4" role="alert" style="display: none;">
+            <!-- Diagnosis and solutions will appear here -->
+        </div>
+    </div>
+
+    <script>
+        // Symptoms data for animals
+        const symptomsData = {
+            buffalo: [
+                "Fever", "Cough", "Diarrhea", "Weight Loss", "Joint Pain", "Flu", "Pregnancy",
+                "Decreasing Milk", "Allergy", "Lethargy", "Bloating", "Eye Infection",
+                "Hoof Rot", "Nasal Discharge", "Drooling", "Loss of Appetite", "Skin Lesions",
+                "Tail Drooping", "Ear Infection", "Excessive Salivation", "Respiratory Distress",
+                "Swollen Joints"
+            ],
+            cow: [
+                "Fever", "Cough", "Diarrhea", "Weight Loss", "Joint Pain", "Flu", "Pregnancy",
+                "Decreasing Milk", "Allergy", "Lethargy", "Bloating", "Eye Infection",
+                "Hoof Rot", "Nasal Discharge", "Drooling", "Loss of Appetite", "Skin Lesions",
+                "Tail Drooping", "Ear Infection", "Excessive Salivation", "Respiratory Distress",
+                "Swollen Joints"
+            ],
+            dog: [
+                "Cough", "Fever", "Diarrhea", "Vomiting", "Weight Loss", "Lethargy",
+                "Sneezing", "Runny Nose", "Watery Eyes", "Limping", "Abdominal Pain",
+                "Excessive Thirst", "Seizures", "Shivering", "Skin Rash", "Difficulty Breathing",
+                "Behavioral Changes", "Poor Coat Condition", "Loss of Appetite",
+                "Excessive Drooling"
+            ],
+            cat: [
+                "Cough", "Fever", "Diarrhea", "Vomiting", "Weight Loss", "Poor Coat Condition",
+                "Lethargy", "Sneezing", "Runny Eyes", "Swollen Gums", "Skin Lesions", "Increased Thirst",
+                "Difficulty Breathing", "Abdominal Pain", "Swollen Abdomen", "Loss of Appetite",
+                "Excessive Drooling", "Behavioral Changes", "Dehydration", "Shivering"
+            ],
+            duck: [
+                "Cough", "Fever", "Diarrhea", "Weight Loss", "Poor Egg Production", "Nasal Discharge",
+                "Lethargy", "Swollen Joints", "Respiratory Distress", "Abdominal Pain", "Poor Feather Condition",
+                "Sudden Death", "Diarrhea with Blood", "Swollen Neck", "Decreased Appetite", "Excessive Thirst",
+                "Skin Lesions", "Behavioral Changes", "Seizures", "Poor Growth"
+            ],
+            camel: [
+                "Fever", "Cough", "Diarrhea", "Weight Loss", "Dehydration", "Swollen Joints",
+                "Respiratory Distress", "Abnormal Posture", "Poor Appetite", "Hoof Issues", "Bloating",
+                "Sudden Behavior Changes", "Nasal Discharge", "Difficulty Standing", "Excessive Thirst",
+                "Poor Coat Condition", "Excessive Salivation", "Abdominal Pain", "Lack of Coordination"
+            ],
+            sheep: [
+                "Fever", "Diarrhea", "Cough", "Lameness", "Weight Loss", "Poor Coat Condition",
+                "Respiratory Issues", "Decreased Appetite", "Abdominal Pain", "Swollen Joints", "Poor Milk Production",
+                "Nasal Discharge", "Skin Lesions", "Excessive Salivation", "Difficulty Breathing", "Weakness", "Bloating",
+                "Sudden Behavior Changes", "Eye Discharge", "Decreased Fertility"
+            ],
+            goat: [
+                "Fever", "Diarrhea", "Cough", "Weight Loss", "Allergy", "Joint Pain", "Lameness",
+                "Decreased Appetite", "Mastitis", "Swollen Joints", "Abdominal Pain", "Respiratory Distress",
+                "Excessive Salivation", "Bloating", "Difficulty Breathing", "Poor Coat Condition",
+                "Decreased Milk Production", "Difficulty Walking", "Skin Rash", "Swelling in Limbs"
+            ],
+            chicken: [
+                "Cough", "Fever", "Diarrhea", "Weight Loss", "Poor Egg Production", "Nasal Discharge",
+                "Lethargy", "Swollen Joints", "Respiratory Distress", "Abdominal Pain", "Poor Feather Condition",
+                "Sudden Death", "Diarrhea with Blood", "Swollen Neck", "Decreased Appetite", "Excessive Thirst",
+                "Skin Lesions", "Behavioral Changes", "Seizures", "Poor Growth"
+            ],
+            rabbit: [
+                "Cough", "Fever", "Diarrhea", "Loss of Appetite", "Weight Loss", "Lethargy",
+                "Abnormal Behavior", "Sneezing", "Runny Nose", "Watery Eyes", "Swollen Abdomen",
+                "Poor Coat Condition", "Lameness", "Abdominal Pain", "Skin Rash", "Dehydration",
+                "Difficulty Breathing", "Excessive Thirst", "Poor Grooming", "Change in Urination Pattern",
+            ],
+            donkey: [
+                "Cough", "Fever", "Diarrhea", "Weight Loss", "Lethargy", "Poor Coat Condition",
+                "Joint Pain", "Lameness", "Abnormal Appetite", "Difficulty Breathing", "Poor Behavior",
+                "Abdominal Pain", "Nasal Discharge", "Excessive Salivation", "Swollen Legs",
+                "Poor Hoof Condition", "Weakness", "Excessive Thirst", "Respiratory Issues",
+                "Skin Lesions"
+            ],
+            horse: [
+                "Cough", "Fever", "Diarrhea", "Weight Loss", "Lethargy", "Poor Coat Condition",
+                "Joint Pain", "Lameness", "Abnormal Appetite", "Difficulty Breathing", "Poor Behavior",
+                "Abdominal Pain", "Nasal Discharge", "Excessive Salivation", "Swollen Legs",
+                "Poor Hoof Condition", "Weakness", "Excessive Thirst", "Respiratory Issues",
+                "Skin Lesions"]
+        };
+
+
+        // Diagnosis data with specific symptom combinations for each animal
+        const diagnosisData = {
+            cow: [
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Paracetamol"], organic: "Rest and herbal infusions." },
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Antibiotics"], organic: "Steam inhalation with eucalyptus oil." },
+                { symptoms: ["Diarrhea"], diagnosis: "Digestive Upset", medicine: ["Anti-diarrheal Medication"], organic: "Boiled rice water." },
+                { symptoms: ["Weight Loss"], diagnosis: "Chronic Malnutrition", medicine: ["Multivitamins"], organic: "High-protein feed with molasses." },
+                { symptoms: ["Joint Pain"], diagnosis: "Arthritis or Nutritional Deficiency", medicine: ["Calcium Supplements"], organic: "Crushed eggshells." },
+                { symptoms: ["Flu"], diagnosis: "Flu", medicine: ["Antiviral Drugs"], organic: "Tulsi and turmeric water." },
+                { symptoms: ["Pregnancy"], diagnosis: "Healthy Pregnancy", medicine: ["Multivitamins"], organic: "Balanced mineral diet." },
+                { symptoms: ["Decreasing Milk"], diagnosis: "Mastitis or Deficiency or Weakness", medicine: ["Anti-inflammatory Drugs"], organic: "Warm mustard oil massage." },
+                { symptoms: ["Allergy"], diagnosis: "Skin or Feed Allergy", medicine: ["Antihistamines"], organic: "Neem paste application." },
+                { symptoms: ["Lethargy"], diagnosis: "Anemia or Energy Deficiency", medicine: ["Iron Supplements"], organic: "Jaggery water." },
+                { symptoms: ["Bloating"], diagnosis: "Rumen Acidosis", medicine: ["Antacids"], organic: "Fenugreek infusion." },
+                { symptoms: ["Eye Infection"], diagnosis: "Conjunctivitis", medicine: ["Antibiotic Eye Drops"], organic: "Saline wash." },
+                { symptoms: ["Hoof Rot"], diagnosis: "Fungal Infection", medicine: ["Antifungal Cream"], organic: "Neem and turmeric soak." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinus Infection", medicine: ["Decongestants"], organic: "Eucalyptus steam." },
+                { symptoms: ["Drooling"], diagnosis: "Oral Lesions", medicine: ["Analgesics"], organic: "Diluted honey water." },
+                { symptoms: ["Loss of Appetite"], diagnosis: "Stress or Digestive Issues", medicine: ["Appetite Stimulants"], organic: "Green fodder." },
+                { symptoms: ["Skin Lesions"], diagnosis: "Dermatitis", medicine: ["Topical Antiseptics"], organic: "Coconut oil paste." },
+                { symptoms: ["Tail Drooping"], diagnosis: "Stress or Deficiency", medicine: ["Vitamin Supplements"], organic: "Molasses feed." },
+                { symptoms: ["Ear Infection"], diagnosis: "Otitis", medicine: ["Ear Drops"], organic: "Garlic oil application." },
+                { symptoms: ["Excessive Salivation"], diagnosis: "Oral Infection", medicine: ["Anti-inflammatory Drugs"], organic: "Cold water with minerals." },
+                { symptoms: ["Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics"], organic: "Eucalyptus steam." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Arthritis", medicine: ["Pain Relievers"], organic: "Turmeric paste application." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea" },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic" },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic" },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea" },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water" },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Bloating", "Lethargy"], diagnosis: "Gastrointestinal Gas", medicine: ["Antacids"], organic: "Fenugreek water" },
+                { symptoms: ["Eye Infection", "Nasal Discharge"], diagnosis: "Conjunctivitis and Sinusitis", medicine: ["Antibiotic Eye Drops", "Antibiotics"], organic: "Saline wash and basil tea" },
+                { symptoms: ["Tail Drooping", "Loss of Appetite"], diagnosis: "Stress or Illness", medicine: ["Appetite Stimulants"], organic: "Chicken broth" },
+                { symptoms: ["Lameness", "Hoof Rot"], diagnosis: "Foot Rot", medicine: ["Antifungal Spray"], organic: "Neem oil application" },
+                { symptoms: ["Excessive Salivation", "Drooling"], diagnosis: "Oral Lesions", medicine: ["Pain Relievers"], organic: "Honey rinse" },
+                { symptoms: ["Pregnancy", "Decreasing Milk"], diagnosis: "Pregnancy-related Stress", medicine: ["Mineral Supplements"], organic: "Balanced nutrition" },
+                { symptoms: ["Allergy", "Skin Lesions"], diagnosis: "Allergic Reaction or Fungal Infection", medicine: ["Antihistamines", "Topical Antifungals"], organic: "Aloe vera gel and oatmeal wash" },
+                { symptoms: ["Fever", "Excessive Salivation"], diagnosis: "Mouth Infection", medicine: ["Antibiotics", "Pain Relievers"], organic: "Honey rinse" }
+            ],
+            buffalo: [
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Paracetamol"], organic: "Herbal tea and rest." },
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Antibiotics"], organic: "Steam inhalation." },
+                { symptoms: ["Diarrhea"], diagnosis: "Diarrhea", medicine: ["Anti-diarrheal Medication"], organic: "Pumpkin puree." },
+                { symptoms: ["Weight Loss"], diagnosis: "Nutritional Deficiency", medicine: ["Multivitamins"], organic: "Molasses and protein feed." },
+                { symptoms: ["Joint Pain"], diagnosis: "Rheumatic Issues", medicine: ["Pain Relievers"], organic: "Turmeric paste." },
+                { symptoms: ["Flu"], diagnosis: "Buffalo Flu", medicine: ["Antivirals"], organic: "Warm ginger water." },
+                { symptoms: ["Pregnancy"], diagnosis: "Normal Pregnancy", medicine: ["Multivitamins"], organic: "Balanced minerals." },
+                { symptoms: ["Decreasing Milk"], diagnosis: "Udder Infection or Weakness", medicine: ["Antibiotics"], organic: "Warm compress." },
+                { symptoms: ["Lethargy"], diagnosis: "Low Energy", medicine: ["Iron Tablets"], organic: "Jaggery water." },
+                { symptoms: ["Bloating"], diagnosis: "Acidosis", medicine: ["Digestive Aids"], organic: "Fenugreek solution." },
+                { symptoms: ["Eye Swelling"], diagnosis: "Eye Infection", medicine: ["Eye Drops"], organic: "Saline rinse." },
+                { symptoms: ["Lameness"], diagnosis: "Hoof Problem", medicine: ["Antibiotics"], organic: "Neem oil soak." },
+                { symptoms: ["Loss of Appetite"], diagnosis: "Stomach Disorder", medicine: ["Appetite Stimulants"], organic: "Fresh green feed." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Arthritis", medicine: ["Pain Relievers"], organic: "Turmeric paste application." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinus Issue", medicine: ["Decongestants"], organic: "Steam therapy." },
+                { symptoms: ["Skin Rashes"], diagnosis: "Allergy", medicine: ["Antihistamines"], organic: "Neem leaves paste." },
+                { symptoms: ["Drooling"], diagnosis: "Mouth Sores", medicine: ["Antibiotics"], organic: "Honey rinse." },
+                { symptoms: ["Dehydration"], diagnosis: "Heat Stress", medicine: ["Oral Rehydration"], organic: "Electrolyte water." },
+                { symptoms: ["Ear Infection"], diagnosis: "Otitis", medicine: ["Ear Drops"], organic: "Garlic oil." },
+                { symptoms: ["Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics"], organic: "Eucalyptus steam." },
+                { symptoms: ["Weakness"], diagnosis: "General Weakness", medicine: ["Energy Boosters"], organic: "Molasses water." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea" },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic" },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic" },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea" },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water" },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Bloating", "Lethargy"], diagnosis: "Gastrointestinal Gas", medicine: ["Antacids"], organic: "Fenugreek water" },
+                { symptoms: ["Eye Infection", "Nasal Discharge"], diagnosis: "Conjunctivitis and Sinusitis", medicine: ["Antibiotic Eye Drops", "Antibiotics"], organic: "Saline wash and basil tea" },
+                { symptoms: ["Tail Drooping", "Loss of Appetite"], diagnosis: "Stress or Illness", medicine: ["Appetite Stimulants"], organic: "Chicken broth" },
+                { symptoms: ["Lameness", "Hoof Rot"], diagnosis: "Foot Rot", medicine: ["Antifungal Spray"], organic: "Neem oil application" },
+                { symptoms: ["Excessive Salivation", "Drooling"], diagnosis: "Oral Lesions", medicine: ["Pain Relievers"], organic: "Honey rinse" },
+                { symptoms: ["Pregnancy", "Decreasing Milk"], diagnosis: "Pregnancy-related Stress", medicine: ["Mineral Supplements"], organic: "Balanced nutrition" },
+                { symptoms: ["Allergy", "Skin Lesions"], diagnosis: "Allergic Reaction or Fungal Infection", medicine: ["Antihistamines", "Topical Antifungals"], organic: "Aloe vera gel and oatmeal wash" },
+                { symptoms: ["Fever", "Excessive Salivation"], diagnosis: "Mouth Infection", medicine: ["Antibiotics", "Pain Relievers"], organic: "Honey rinse" }
+            ],
+            dog: [
+                { symptoms: ["Cough"], diagnosis: "Kennel Cough", medicine: ["Cough Syrup"], organic: "Honey and ginger water." },
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Paracetamol"], organic: "Plenty of water and rest." },
+                { symptoms: ["Diarrhea"], diagnosis: "Gastrointestinal Upset", medicine: ["Anti-diarrheal"], organic: "Boiled chicken and rice." },
+                { symptoms: ["Vomiting"], diagnosis: "Food Intolerance", medicine: ["Antiemetics"], organic: "Ginger tea and hydration." },
+                { symptoms: ["Weight Loss"], diagnosis: "Worm Infestation", medicine: ["Deworming Tablets"], organic: "Papaya seeds." },
+                { symptoms: ["Lethargy"], diagnosis: "Anemia or Low Energy", medicine: ["Iron Supplements"], organic: "Jaggery water." },
+                { symptoms: ["Sneezing"], diagnosis: "Allergic Rhinitis", medicine: ["Antihistamines"], organic: "Steam inhalation." },
+                { symptoms: ["Runny Nose"], diagnosis: "Upper Respiratory Infection", medicine: ["Antibiotics"], organic: "Herbal tea with basil." },
+                { symptoms: ["Watery Eyes"], diagnosis: "Conjunctivitis", medicine: ["Eye Drops"], organic: "Saline wash." },
+                { symptoms: ["Limping"], diagnosis: "Joint Pain or Injury", medicine: ["Pain Relievers"], organic: "Turmeric paste." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Gastritis", medicine: ["Antacids"], organic: "Pumpkin puree." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Diabetes", medicine: ["Insulin"], organic: "Low-carb meals." },
+                { symptoms: ["Seizures"], diagnosis: "Neurological Issue", medicine: ["Anticonvulsants"], organic: "Chamomile tea." },
+                { symptoms: ["Shivering"], diagnosis: "Hypothermia", medicine: ["Heating Pads"], organic: "Warm soup." },
+                { symptoms: ["Skin Rash"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Neem oil." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Steam therapy." },
+                { symptoms: ["Behavioral Changes"], diagnosis: "Stress or Neurological Issue", medicine: ["Calming Medications"], organic: "Lavender aromatherapy." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Nutritional Deficiency", medicine: ["Omega-3 Supplements"], organic: "Egg yolks." },
+                { symptoms: ["Loss of Appetite"], diagnosis: "Digestive Issue or Stress", medicine: ["Appetite Stimulants"], organic: "Fresh chicken broth." },
+                { symptoms: ["Excessive Drooling"], diagnosis: "Oral Lesions", medicine: ["Pain Relievers"], organic: "Honey rinse." },
+                { symptoms: ["Cough", "Fever"], diagnosis: "Canine Flu", medicine: ["Antibiotics", "Cough Syrup"], organic: "Herbal teas." },
+                { symptoms: ["Cough", "Vomiting"], diagnosis: "Canine Respiratory Infection", medicine: ["Antibiotics", "Anti-emetics"], organic: "Honey and ginger." },
+                { symptoms: ["Fever", "Vomiting"], diagnosis: "Viral Infection", medicine: ["Antipyretics", "Antiemetics"], organic: "Honey and ginger, chamomile tea." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory"], organic: "Echinacea, garlic." },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Antibiotics", "Anti-diarrheal"], organic: "Pumpkin puree, ginger tea." },
+                { symptoms: ["Cough", "Diarrhea", "Fever"], diagnosis: "Canine Flu", medicine: ["Antibiotics", "Cough Syrup", "Fever reducers"], organic: "Herbal teas, honey and ginger." },
+                { symptoms: ["Fever", "Lethargy"], diagnosis: "Systemic Infection", medicine: ["Antipyretics", "Antibiotics"], organic: "Honey and ginger." },
+                { symptoms: ["Skin Rash", "Lethargy"], diagnosis: "Allergic Reaction", medicine: ["Antihistamines"], organic: "Oatmeal baths, Aloe Vera." },
+                { symptoms: ["Seizures", "Lethargy"], diagnosis: "Seizure Disorder", medicine: ["Anticonvulsants"], organic: "Lavender essential oils." },
+                { symptoms: ["Cough", "Sneezing", "Runny Nose"], diagnosis: "Upper Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Eucalyptus steam inhalation." },
+                { symptoms: ["Diarrhea", "Vomiting"], diagnosis: "Gastrointestinal Infection", medicine: ["Anti-diarrheal", "Anti-emetic"], organic: "Pumpkin puree and rice water" },
+                { symptoms: ["Weight Loss", "Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens" },
+                { symptoms: ["Limping", "Abdominal Pain"], diagnosis: "Injury or Inflammation", medicine: ["Pain Relievers", "Anti-inflammatory drugs"], organic: "Ice packs and turmeric paste" },
+                { symptoms: ["Excessive Thirst", "Shivering"], diagnosis: "Dehydration or Hypothermia", medicine: ["Electrolyte Solutions"], organic: "Warmth and hydration" },
+                { symptoms: ["Sneezing", "Runny Nose"], diagnosis: "Upper Respiratory Infection", medicine: ["Antibiotics", "Decongestants"], organic: "Steam inhalation" },
+                { symptoms: ["Seizures", "Behavioral Changes"], diagnosis: "Neurological Disorder", medicine: ["Anticonvulsants"], organic: "Calming herbs like valerian root" },
+                { symptoms: ["Skin Rash", "Excessive Drooling"], diagnosis: "Allergic Reaction", medicine: ["Antihistamines"], organic: "Oatmeal baths" },
+                { symptoms: ["Poor Coat Condition", "Loss of Appetite"], diagnosis: "Nutritional Deficiency", medicine: ["Omega-3 Supplements"], organic: "Coconut oil" },
+                { symptoms: ["Cough", "Sneezing", "Runny Nose"], diagnosis: "Canine Flu", medicine: ["Antibiotics", "Cough Syrup"], organic: "Warm broth and rest" },
+                { symptoms: ["Excessive Drooling", "Abdominal Pain"], diagnosis: "Mouth Ulcers", medicine: ["Pain Relievers"], organic: "Honey rinse" },
+                { symptoms: ["Vomiting", "Weight Loss"], diagnosis: "Parasitic Infection", medicine: ["Dewormers"], organic: "Carrot and ginger paste" },
+                { symptoms: ["Behavioral Changes", "Shivering"], diagnosis: "Stress or Anxiety", medicine: ["Calming Agents"], organic: "Chamomile tea" },
+                { symptoms: ["Difficulty Breathing", "Lethargy"], diagnosis: "Pneumonia or Respiratory Failure", medicine: ["Antibiotics", "Bronchodilators"], organic: "Eucalyptus steam" },
+                { symptoms: ["Diarrhea", "Excessive Thirst"], diagnosis: "Gastrointestinal Disorder or Diabetes", medicine: ["Anti-diarrheal", "Insulin"], organic: "Low-sugar hydration" },
+                { symptoms: ["Fever", "Skin Rash"], diagnosis: "Canine Dermatitis or Infection", medicine: ["Antibiotics", "Steroid Cream"], organic: "Aloe vera gel" }
+            ],
+            cat: [
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Honey and lemon water." },
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Paracetamol (low dose)"], organic: "Warmth and rest." },
+                { symptoms: ["Diarrhea"], diagnosis: "Digestive Upset", medicine: ["Anti-diarrheal"], organic: "Boiled rice and chicken." },
+                { symptoms: ["Vomiting"], diagnosis: "Food Allergy or Intolerance", medicine: ["Antiemetics"], organic: "Boiled pumpkin." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Deworming Medication"], organic: "Crushed garlic (tiny dose)." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Multivitamins"], organic: "Fish oil supplements." },
+                { symptoms: ["Lethargy"], diagnosis: "Low Energy or Anemia", medicine: ["Iron Supplements"], organic: "Cooked liver." },
+                { symptoms: ["Sneezing"], diagnosis: "Allergic Rhinitis", medicine: ["Antihistamines"], organic: "Steam inhalation." },
+                { symptoms: ["Runny Eyes"], diagnosis: "Conjunctivitis", medicine: ["Antibiotic Eye Drops"], organic: "Saline wash." },
+                { symptoms: ["Swollen Gums"], diagnosis: "Gingivitis", medicine: ["Oral Antibiotics"], organic: "Diluted honey rinse." },
+                { symptoms: ["Skin Lesions"], diagnosis: "Fungal Infection", medicine: ["Antifungal Creams"], organic: "Coconut oil." },
+                { symptoms: ["Increased Thirst"], diagnosis: "Kidney Disease", medicine: ["Specialized Diet"], organic: "Low-sodium food." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Asthma", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Gastritis", medicine: ["Antacids"], organic: "Boiled pumpkin." },
+                { symptoms: ["Swollen Abdomen"], diagnosis: "Ascites", medicine: ["Diuretics"], organic: "Low-sodium meals." },
+                { symptoms: ["Loss of Appetite"], diagnosis: "Stress or Illness", medicine: ["Appetite Stimulants"], organic: "Chicken broth." },
+                { symptoms: ["Excessive Drooling"], diagnosis: "Mouth Ulcers", medicine: ["Pain Relievers"], organic: "Chamomile tea." },
+                { symptoms: ["Behavioral Changes"], diagnosis: "Neurological Issues", medicine: ["Calming Medications"], organic: "Lavender oil diffusion." },
+                { symptoms: ["Dehydration"], diagnosis: "Heat Stress", medicine: ["Oral Rehydration Solution"], organic: "Electrolyte water." },
+                { symptoms: ["Shivering"], diagnosis: "Hypothermia", medicine: ["Warm Blankets"], organic: "Warm soup." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Vomiting"], diagnosis: "Gastrointestinal Infection", medicine: ["Anti-diarrheal", "Anti-emetic"], organic: "Pumpkin puree and rice water" },
+                { symptoms: ["Weight Loss", "Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens" },
+                { symptoms: ["Swollen Gums", "Poor Coat Condition"], diagnosis: "Dental Issues or Nutritional Deficiency", medicine: ["Antibiotics", "Dental Care"], organic: "Coconut oil" },
+                { symptoms: ["Lethargy", "Dehydration"], diagnosis: "Kidney Disease or Dehydration", medicine: ["Fluids", "Electrolyte Solutions"], organic: "Fresh water with electrolyte solution" },
+                { symptoms: ["Sneezing", "Runny Eyes"], diagnosis: "Upper Respiratory Infection", medicine: ["Antibiotics", "Decongestants"], organic: "Steam inhalation" },
+                { symptoms: ["Shivering", "Behavioral Changes"], diagnosis: "Stress or Anxiety", medicine: ["Calming Agents"], organic: "Chamomile tea" },
+                { symptoms: ["Skin Lesions", "Excessive Drooling"], diagnosis: "Fungal Infection or Allergic Reaction", medicine: ["Topical Antifungals", "Antihistamines"], organic: "Aloe vera gel" },
+                { symptoms: ["Difficulty Breathing", "Lethargy"], diagnosis: "Respiratory Failure or Pneumonia", medicine: ["Antibiotics", "Bronchodilators"], organic: "Eucalyptus steam" },
+                { symptoms: ["Abdominal Pain", "Swollen Abdomen"], diagnosis: "Gastrointestinal or Liver Disease", medicine: ["Pain Relievers", "Antibiotics"], organic: "Pumpkin puree" },
+                { symptoms: ["Loss of Appetite", "Weight Loss"], diagnosis: "Feline Anorexia", medicine: ["Appetite Stimulants"], organic: "Tuna water or chicken broth" },
+                { symptoms: ["Vomiting", "Weight Loss"], diagnosis: "Parasites or Digestive Disorder", medicine: ["Dewormers", "Digestive Enzymes"], organic: "Carrot and ginger paste" },
+                { symptoms: ["Swollen Abdomen", "Difficulty Breathing"], diagnosis: "Fluid Retention or Heart Disease", medicine: ["Diuretics", "Antibiotics"], organic: "Cucumber extract" },
+                { symptoms: ["Fever", "Skin Lesions"], diagnosis: "Skin Infection or Dermatitis", medicine: ["Antibiotics", "Steroid Cream"], organic: "Aloe vera gel" },
+                { symptoms: ["Excessive Drooling", "Loss of Appetite"], diagnosis: "Mouth Ulcers or Dental Issues", medicine: ["Pain Relievers"], organic: "Honey rinse" },
+                { symptoms: ["Increased Thirst", "Weight Loss"], diagnosis: "Diabetes", medicine: ["Insulin"], organic: "Low-sugar hydration" }
+            ],
+            camel: [
+                { symptoms: ["Fever"], diagnosis: "Camel Viral Fever", medicine: ["Paracetamol"], organic: "Hydration and ginger water." },
+                { symptoms: ["Cough"], diagnosis: "cough", medicine: ["Cough Syrup"], organic: "Steam inhalation." },
+                { symptoms: ["Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Deworming Medication"], organic: "Crushed neem leaves." },
+                { symptoms: ["Dehydration"], diagnosis: "Heat Stress", medicine: ["Oral Rehydration Solution"], organic: "Electrolyte water." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Arthritis", medicine: ["Pain Relievers"], organic: "Turmeric paste application." },
+                { symptoms: ["Respiratory Distress"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Abnormal Posture"], diagnosis: "Spinal Issue or Injury", medicine: ["Anti-inflammatory"], organic: "Massage therapy." },
+                { symptoms: ["Poor Appetite"], diagnosis: "Digestive Upset", medicine: ["Digestive Enzymes"], organic: "Mint tea." },
+                { symptoms: ["Hoof Issues"], diagnosis: "Foot Rot", medicine: ["Antifungal Spray"], organic: "Neem oil application." },
+                { symptoms: ["Bloating"], diagnosis: "Gastrointestinal Gas", medicine: ["Antacids"], organic: "Fenugreek water." },
+                { symptoms: ["Sudden Behavior Changes"], diagnosis: "Neurological Issue", medicine: ["Calming Agents"], organic: "Chamomile infusion." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinusitis", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Difficulty Standing"], diagnosis: "Leg Injury", medicine: ["Pain Relievers"], organic: "Cold compress." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Diabetes or Dehydration", medicine: ["Insulin"], organic: "Low-sugar hydration." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Nutritional Deficiency", medicine: ["Multivitamins"], organic: "Coconut oil." },
+                { symptoms: ["Excessive Salivation"], diagnosis: "Mouth Ulcers", medicine: ["Oral Antiseptics"], organic: "Honey rinse." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea." },
+                { symptoms: ["Lack of Coordination"], diagnosis: "Neurological Disorder", medicine: ["Supportive Therapy"], organic: "Balanced diet." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree" },
+                { symptoms: ["Dehydration", "Swollen Joints"], diagnosis: "Heat Stress and Arthritis", medicine: ["Oral Rehydration Solution", "Pain Relievers"], organic: "Electrolyte water and turmeric paste application" },
+                { symptoms: ["Respiratory Distress", "Cough"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam" },
+                { symptoms: ["Abnormal Posture", "Difficulty Standing"], diagnosis: "Spinal Issue or Injury", medicine: ["Anti-inflammatory"], organic: "Massage therapy" },
+                { symptoms: ["Poor Appetite", "Poor Coat Condition"], diagnosis: "Digestive Upset and Nutritional Deficiency", medicine: ["Digestive Enzymes", "Multivitamins"], organic: "Mint tea and coconut oil" },
+                { symptoms: ["Hoof Issues", "Bloating"], diagnosis: "Foot Rot and Gastrointestinal Gas", medicine: ["Antifungal Spray", "Antacids"], organic: "Neem oil application and fenugreek water" },
+                { symptoms: ["Sudden Behavior Changes", "Lack of Coordination"], diagnosis: "Neurological Issue", medicine: ["Calming Agents"], organic: "Balanced diet" },
+                { symptoms: ["Nasal Discharge", "Excessive Salivation"], diagnosis: "Sinusitis and Mouth Ulcers", medicine: ["Antibiotics", "Oral Antiseptics"], organic: "Basil tea and honey rinse" },
+                { symptoms: ["Abdominal Pain", "Bloating"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea" },
+                { symptoms: ["Excessive Thirst", "Poor Coat Condition"], diagnosis: "Diabetes or Nutritional Deficiency", medicine: ["Insulin", "Multivitamins"], organic: "Low-sugar hydration and coconut oil" },
+                { symptoms: ["Dehydration", "Excessive Salivation"], diagnosis: "Heat Stress and Mouth Ulcers", medicine: ["Oral Rehydration Solution", "Oral Antiseptics"], organic: "Electrolyte water and honey rinse" },
+                { symptoms: ["Fever", "Sudden Behavior Changes"], diagnosis: "Respiratory Infection and Neurological Disorder", medicine: ["Antibiotics", "Calming Agents"], organic: "Honey and ginger tea" },
+                { symptoms: ["Nasal Discharge", "Difficulty Standing"], diagnosis: "Sinusitis and Leg Injury", medicine: ["Antibiotics", "Pain Relievers"], organic: "Basil tea and cold compress" },
+                { symptoms: ["Swollen Joints", "Poor Appetite"], diagnosis: "Arthritis and Digestive Upset", medicine: ["Pain Relievers", "Digestive Enzymes"], organic: "Turmeric paste and mint tea" },
+                { symptoms: ["Fever", "Excessive Thirst"], diagnosis: "Respiratory Infection and Diabetes", medicine: ["Antibiotics", "Insulin"], organic: "Honey and ginger tea and low-sugar hydration" },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water" },
+                { symptoms: ["Respiratory Distress", "Swollen Joints"], diagnosis: "Pneumonia and Joint Infection", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation and turmeric and garlic paste" },
+                { symptoms: ["Poor Coat Condition", "Excessive Salivation"], diagnosis: "Mouth Ulcers and Nutritional Deficiency", medicine: ["Oral Antiseptics", "Multivitamins"], organic: "Honey rinse and coconut oil" }
+            ],
+            sheep: [
+                { symptoms: ["Fever"], diagnosis: "Sheep Viral Fever", medicine: ["Paracetamol"], organic: "Warm water and rest." },
+                { symptoms: ["Diarrhea"], diagnosis: "Parasitic Gastroenteritis", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree." },
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Steam inhalation." },
+                { symptoms: ["Lameness"], diagnosis: "Foot Rot", medicine: ["Antibiotics"], organic: "Neem oil application." },
+                { symptoms: ["Weight Loss"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Omega-3 Capsules"], organic: "Flaxseed oil." },
+                { symptoms: ["Respiratory Issues"], diagnosis: "Pneumonia", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Decreased Appetite"], diagnosis: "Digestive Issue", medicine: ["Digestive Enzymes"], organic: "Mint infusion." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Arthritis", medicine: ["Anti-inflammatory"], organic: "Turmeric paste application." },
+                { symptoms: ["Poor Milk Production"], diagnosis: "Mastitis", medicine: ["Antibiotics"], organic: "Hot compress and massage." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinusitis", medicine: ["Antibiotics"], organic: "Ginger tea." },
+                { symptoms: ["Skin Lesions"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Aloe vera gel." },
+                { symptoms: ["Excessive Salivation"], diagnosis: "Oral Lesions", medicine: ["Pain Relievers"], organic: "Honey rinse." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Weakness"], diagnosis: "Anemia", medicine: ["Iron Supplements"], organic: "Beetroot juice." },
+                { symptoms: ["Bloating"], diagnosis: "Gastrointestinal Gas", medicine: ["Antacids"], organic: "Fenugreek water." },
+                { symptoms: ["Sudden Behavior Changes"], diagnosis: "Stress or Neurological Issue", medicine: ["Calming Agents"], organic: "Chamomile infusion." },
+                { symptoms: ["Eye Discharge"], diagnosis: "Conjunctivitis", medicine: ["Antibiotic Eye Drops"], organic: "Saline wash." },
+                { symptoms: ["Decreased Fertility"], diagnosis: "Reproductive Disorder", medicine: ["Hormonal Therapy"], organic: "Balanced nutrition." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Parasitic Gastroenteritis", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree" },
+                { symptoms: ["Lameness", "Swollen Joints"], diagnosis: "Foot Rot and Arthritis", medicine: ["Antibiotics"], organic: "Neem oil application" },
+                { symptoms: ["Poor Coat Condition", "Decreased Appetite"], diagnosis: "Vitamin Deficiency and Digestive Issue", medicine: ["Omega-3 Capsules", "Digestive Enzymes"], organic: "Flaxseed oil and mint infusion" },
+                { symptoms: ["Respiratory Issues", "Difficulty Breathing"], diagnosis: "Pneumonia and Bronchitis", medicine: ["Antibiotics", "Bronchodilators"], organic: "Basil tea and eucalyptus steam" },
+                { symptoms: ["Abdominal Pain", "Bloating"], diagnosis: "Colic and Gastrointestinal Gas", medicine: ["Antispasmodics", "Antacids"], organic: "Peppermint tea and fenugreek water" },
+                { symptoms: ["Poor Milk Production", "Skin Lesions"], diagnosis: "Mastitis and Fungal Infection", medicine: ["Antibiotics", "Topical Antifungals"], organic: "Hot compress and aloe vera gel" },
+                { symptoms: ["Excessive Salivation", "Eye Discharge"], diagnosis: "Mouth Ulcers and Conjunctivitis", medicine: ["Oral Antiseptics", "Antibiotic Eye Drops"], organic: "Honey rinse and saline wash" },
+                { symptoms: ["Weakness", "Decreased Fertility"], diagnosis: "Anemia and Reproductive Disorder", medicine: ["Iron Supplements", "Hormonal Therapy"], organic: "Beetroot juice and balanced nutrition" },
+                { symptoms: ["Bloating", "Sudden Behavior Changes"], diagnosis: "Gastrointestinal Gas and Stress", medicine: ["Antacids", "Calming Agents"], organic: "Fenugreek water and chamomile infusion" },
+                { symptoms: ["Fever", "Excessive Salivation"], diagnosis: "Respiratory Infection and Mouth Ulcers", medicine: ["Antibiotics", "Oral Antiseptics"], organic: "Honey and ginger tea" },
+                { symptoms: ["Lameness", "Swollen Joints"], diagnosis: "Arthritis and Foot Rot", medicine: ["Anti-inflammatory", "Antibiotics"], organic: "Turmeric paste application and neem oil" },
+                { symptoms: ["Nasal Discharge", "Decreased Appetite"], diagnosis: "Sinusitis and Digestive Upset", medicine: ["Antibiotics", "Digestive Enzymes"], organic: "Basil tea and mint infusion" },
+                { symptoms: ["Fever", "Weakness"], diagnosis: "Respiratory Infection and Anemia", medicine: ["Antibiotics", "Iron Supplements"], organic: "Honey and ginger tea with beetroot juice" },
+                { symptoms: ["Poor Coat Condition", "Excessive Salivation"], diagnosis: "Nutritional Deficiency and Mouth Ulcers", medicine: ["Multivitamins", "Oral Antiseptics"], organic: "Coconut oil and honey rinse" },
+                { symptoms: ["Sudden Behavior Changes", "Skin Lesions"], diagnosis: "Stress and Fungal Infection", medicine: ["Calming Agents", "Topical Antifungals"], organic: "Chamomile infusion and aloe vera gel" },
+                { symptoms: ["Fever", "Abdominal Pain"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and peppermint tea" },
+                { symptoms: ["Eye Discharge", "Respiratory Issues"], diagnosis: "Conjunctivitis and Pneumonia", medicine: ["Antibiotic Eye Drops", "Antibiotics"], organic: "Saline wash and basil tea" },
+                { symptoms: ["Decreased Fertility", "Swollen Joints"], diagnosis: "Reproductive Disorder and Arthritis", medicine: ["Hormonal Therapy", "Anti-inflammatory"], organic: "Balanced nutrition and turmeric paste application" },
+                { symptoms: ["Diarrhea", "Nasal Discharge"], diagnosis: "Gastrointestinal Infection and Sinusitis", medicine: ["Antibiotics", "Anti-diarrheal"], organic: "Chamomile and basil tea" }
+            ],
+            goat: [
+                { symptoms: ["Fever"], diagnosis: "Goat Viral Fever", medicine: ["Paracetamol"], organic: "Hydration and ginger tea." },
+                { symptoms: ["Diarrhea"], diagnosis: "Gastroenteritis", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree." },
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Steam inhalation." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Dewormers"], organic: "Crushed neem leaves." },
+                { symptoms: ["Allergy"], diagnosis: "Allergic Reaction", medicine: ["Antihistamines"], organic: "Oatmeal wash for skin." },
+                { symptoms: ["Joint Pain"], diagnosis: "Arthritis", medicine: ["Anti-inflammatory"], organic: "Turmeric paste application." },
+                { symptoms: ["Lameness"], diagnosis: "Foot Rot", medicine: ["Antifungal Spray"], organic: "Neem oil application." },
+                { symptoms: ["Decreased Appetite"], diagnosis: "Digestive Issue", medicine: ["Digestive Enzymes"], organic: "Mint infusion." },
+                { symptoms: ["Mastitis"], diagnosis: "Mastitis", medicine: ["Antibiotics"], organic: "Hot compress and massage." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Antibiotics"], organic: "Warm compress." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea." },
+                { symptoms: ["Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Excessive Salivation"], diagnosis: "Oral Lesions", medicine: ["Pain Relievers"], organic: "Honey rinse." },
+                { symptoms: ["Bloating"], diagnosis: "Gas Accumulation", medicine: ["Antacids"], organic: "Fenugreek water." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Omega-3 Capsules"], organic: "Flaxseed oil." },
+                { symptoms: ["Decreased Milk Production"], diagnosis: "Nutritional Deficiency", medicine: ["Mineral Supplements"], organic: "Balanced feed." },
+                { symptoms: ["Difficulty Walking"], diagnosis: "Leg Injury", medicine: ["Pain Relievers"], organic: "Cold compress." },
+                { symptoms: ["Skin Rash"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Aloe vera gel." },
+                { symptoms: ["Swelling in Limbs"], diagnosis: "Edema", medicine: ["Diuretics"], organic: "Cucumber extract." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic" },
+                { symptoms: ["Cough", "Joint Pain"], diagnosis: "Rheumatoid Arthritis", medicine: ["Anti-inflammatory drugs"], organic: "Turmeric, garlic, and ginger tea." },
+                { symptoms: ["Fever", "Cough", "Weight Loss"], diagnosis: "Severe Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Herbal teas, honey and ginger." },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Parasitic Gastroenteritis", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree" },
+                { symptoms: ["Lameness", "Swollen Joints"], diagnosis: "Foot Rot and Arthritis", medicine: ["Antibiotics"], organic: "Neem oil application" },
+                { symptoms: ["Poor Coat Condition", "Decreased Appetite"], diagnosis: "Vitamin Deficiency and Digestive Issue", medicine: ["Omega-3 Capsules", "Digestive Enzymes"], organic: "Flaxseed oil and mint infusion" },
+                { symptoms: ["Respiratory Issues", "Difficulty Breathing"], diagnosis: "Pneumonia and Bronchitis", medicine: ["Antibiotics", "Bronchodilators"], organic: "Basil tea and eucalyptus steam" },
+                { symptoms: ["Abdominal Pain", "Bloating"], diagnosis: "Colic and Gastrointestinal Gas", medicine: ["Antispasmodics", "Antacids"], organic: "Peppermint tea and fenugreek water" },
+                { symptoms: ["Poor Milk Production", "Skin Lesions"], diagnosis: "Mastitis and Fungal Infection", medicine: ["Antibiotics", "Topical Antifungals"], organic: "Hot compress and aloe vera gel" },
+                { symptoms: ["Excessive Salivation", "Eye Discharge"], diagnosis: "Mouth Ulcers and Conjunctivitis", medicine: ["Oral Antiseptics", "Antibiotic Eye Drops"], organic: "Honey rinse and saline wash" },
+                { symptoms: ["Weakness", "Decreased Fertility"], diagnosis: "Anemia and Reproductive Disorder", medicine: ["Iron Supplements", "Hormonal Therapy"], organic: "Beetroot juice and balanced nutrition" },
+                { symptoms: ["Bloating", "Sudden Behavior Changes"], diagnosis: "Gastrointestinal Gas and Stress", medicine: ["Antacids", "Calming Agents"], organic: "Fenugreek water and chamomile infusion" },
+                { symptoms: ["Fever", "Excessive Salivation"], diagnosis: "Respiratory Infection and Mouth Ulcers", medicine: ["Antibiotics", "Oral Antiseptics"], organic: "Honey and ginger tea" },
+                { symptoms: ["Lameness", "Swollen Joints"], diagnosis: "Arthritis and Foot Rot", medicine: ["Anti-inflammatory", "Antibiotics"], organic: "Turmeric paste application and neem oil" },
+                { symptoms: ["Nasal Discharge", "Decreased Appetite"], diagnosis: "Sinusitis and Digestive Upset", medicine: ["Antibiotics", "Digestive Enzymes"], organic: "Basil tea and mint infusion" },
+                { symptoms: ["Fever", "Weakness"], diagnosis: "Respiratory Infection and Anemia", medicine: ["Antibiotics", "Iron Supplements"], organic: "Honey and ginger tea with beetroot juice" },
+                { symptoms: ["Poor Coat Condition", "Excessive Salivation"], diagnosis: "Nutritional Deficiency and Mouth Ulcers", medicine: ["Multivitamins", "Oral Antiseptics"], organic: "Coconut oil and honey rinse" },
+                { symptoms: ["Sudden Behavior Changes", "Skin Lesions"], diagnosis: "Stress and Fungal Infection", medicine: ["Calming Agents", "Topical Antifungals"], organic: "Chamomile infusion and aloe vera gel" },
+                { symptoms: ["Fever", "Abdominal Pain"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and peppermint tea" },
+                { symptoms: ["Eye Discharge", "Respiratory Issues"], diagnosis: "Conjunctivitis and Pneumonia", medicine: ["Antibiotic Eye Drops", "Antibiotics"], organic: "Saline wash and basil tea" },
+                { symptoms: ["Decreased Fertility", "Swollen Joints"], diagnosis: "Reproductive Disorder and Arthritis", medicine: ["Hormonal Therapy", "Anti-inflammatory"], organic: "Balanced nutrition and turmeric paste application" },
+                { symptoms: ["Diarrhea", "Nasal Discharge"], diagnosis: "Gastrointestinal Infection and Sinusitis", medicine: ["Antibiotics", "Anti-diarrheal"], organic: "Chamomile and basil tea" }
+            ],
+            chicken: [
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Steam inhalation." },
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Antibiotics"], organic: "Hydration with herbal tea." },
+                { symptoms: ["Diarrhea"], diagnosis: "Diarrhea", medicine: ["Anti-coccidial Drugs"], organic: "Garlic water." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Dewormers"], organic: "Papaya seeds." },
+                { symptoms: ["Poor Egg Production"], diagnosis: "Calcium Deficiency", medicine: ["Calcium Supplements"], organic: "Crushed eggshells." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinusitis", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Multivitamins"], organic: "Balanced feed." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Arthritis", medicine: ["Anti-inflammatory"], organic: "Turmeric paste application." },
+                { symptoms: ["Respiratory Distress"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Egg Binding", medicine: ["Calcium Supplements"], organic: "Warm water soak." },
+                { symptoms: ["Poor Feather Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Vitamin A and E Supplements"], organic: "Carrot puree." },
+                { symptoms: ["Sudden Death"], diagnosis: "Avian Flu", medicine: ["Supportive Therapy"], organic: "Isolation and hydration." },
+                { symptoms: ["Diarrhea with Blood"], diagnosis: "Severe Coccidiosis", medicine: ["Anti-coccidial Drugs"], organic: "Chamomile tea." },
+                { symptoms: ["Swollen Neck"], diagnosis: "Crop Impaction", medicine: ["Surgical Intervention"], organic: "Olive oil massage." },
+                { symptoms: ["Decreased Appetite"], diagnosis: "Digestive Upset", medicine: ["Digestive Enzymes"], organic: "Mint infusion." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Dehydration", medicine: ["Oral Rehydration Solution"], organic: "Electrolyte water." },
+                { symptoms: ["Skin Lesions"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Aloe vera gel." },
+                { symptoms: ["Behavioral Changes"], diagnosis: "Stress or Neurological Issue", medicine: ["Calming Agents"], organic: "Chamomile infusion." },
+                { symptoms: ["Seizures"], diagnosis: "Neurological Disorder", medicine: ["Anti-seizure Medication"], organic: "Balanced diet." },
+                { symptoms: ["Poor Growth"], diagnosis: "Nutritional Deficiency", medicine: ["Protein Supplements"], organic: "Balanced feed." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Anti-diarrheal"], organic: "Chamomile and pumpkin puree" },
+                { symptoms: ["Poor Egg Production", "Decreased Appetite"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens and balanced feed" },
+                { symptoms: ["Nasal Discharge", "Respiratory Distress"], diagnosis: "Avian Influenza", medicine: ["Antibiotics"], organic: "Basil tea" },
+                { symptoms: ["Lethargy", "Swollen Joints"], diagnosis: "Arthritis and Viral Infection", medicine: ["Anti-inflammatory drugs", "Antiviral drugs"], organic: "Turmeric paste application" },
+                { symptoms: ["Abdominal Pain", "Diarrhea with Blood"], diagnosis: "Colitis or Salmonella Infection", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Mint infusion and chamomile tea" },
+                { symptoms: ["Poor Feather Condition", "Weight Loss"], diagnosis: "Vitamin Deficiency or Parasitic Infestation", medicine: ["Vitamin Supplements", "Dewormers"], organic: "Flaxseed oil and crushed neem leaves" },
+                { symptoms: ["Sudden Death", "Swollen Neck"], diagnosis: "Fowl Cholera", medicine: ["Antibiotics"], organic: "Garlic water" },
+                { symptoms: ["Decreased Appetite", "Excessive Thirst"], diagnosis: "Kidney Infection or Dehydration", medicine: ["Antibiotics", "Fluid Therapy"], organic: "Coconut water and fresh clean water" },
+                { symptoms: ["Skin Lesions", "Swollen Neck"], diagnosis: "Fungal Infection or Viral Infection", medicine: ["Topical Antifungals", "Antibiotics"], organic: "Aloe vera gel and honey rinse" },
+                { symptoms: ["Behavioral Changes", "Seizures"], diagnosis: "Neurological Issue", medicine: ["Anticonvulsants"], organic: "Chamomile infusion" },
+                { symptoms: ["Poor Growth", "Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Mineral Supplements"], organic: "Balanced feed and fresh greens" },
+                { symptoms: ["Cough", "Poor Feather Condition"], diagnosis: "Respiratory Infection and Vitamin Deficiency", medicine: ["Antibiotics", "Vitamin Supplements"], organic: "Honey and ginger tea with flaxseed oil" },
+                { symptoms: ["Diarrhea", "Abdominal Pain"], diagnosis: "Gastrointestinal Infection", medicine: ["Antibiotics", "Anti-diarrheal"], organic: "Mint infusion and peppermint tea" },
+                { symptoms: ["Fever", "Diarrhea with Blood"], diagnosis: "Infectious Gastroenteritis", medicine: ["Broad-spectrum Antibiotics"], organic: "Ginger and pumpkin puree" },
+                { symptoms: ["Excessive Thirst", "Swollen Joints"], diagnosis: "Arthritis and Dehydration", medicine: ["Anti-inflammatory drugs", "Electrolyte Solution"], organic: "Turmeric paste and coconut water" },
+                { symptoms: ["Swollen Neck", "Decreased Appetite"], diagnosis: "Fowl Pox or Viral Infection", medicine: ["Antibiotics"], organic: "Garlic water and fresh greens" }
+            ],
+            duck: [
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Steam inhalation." },
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Antibiotics"], organic: "Hydration with herbal tea." },
+                { symptoms: ["Diarrhea"], diagnosis: "Diarrhea", medicine: ["Anti-coccidial Drugs"], organic: "Garlic water." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Dewormers"], organic: "Papaya seeds." },
+                { symptoms: ["Poor Egg Production"], diagnosis: "Calcium Deficiency", medicine: ["Calcium Supplements"], organic: "Crushed eggshells." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinusitis", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Multivitamins"], organic: "Balanced feed." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Arthritis", medicine: ["Anti-inflammatory"], organic: "Turmeric paste application." },
+                { symptoms: ["Respiratory Distress"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Egg Binding", medicine: ["Calcium Supplements"], organic: "Warm water soak." },
+                { symptoms: ["Poor Feather Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Vitamin A and E Supplements"], organic: "Carrot puree." },
+                { symptoms: ["Sudden Death"], diagnosis: "Avian Flu", medicine: ["Supportive Therapy"], organic: "Isolation and hydration." },
+                { symptoms: ["Diarrhea with Blood"], diagnosis: "Severe Coccidiosis", medicine: ["Anti-coccidial Drugs"], organic: "Chamomile tea." },
+                { symptoms: ["Swollen Neck"], diagnosis: "Crop Impaction", medicine: ["Surgical Intervention"], organic: "Olive oil massage." },
+                { symptoms: ["Decreased Appetite"], diagnosis: "Digestive Upset", medicine: ["Digestive Enzymes"], organic: "Mint infusion." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Dehydration", medicine: ["Oral Rehydration Solution"], organic: "Electrolyte water." },
+                { symptoms: ["Skin Lesions"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Aloe vera gel." },
+                { symptoms: ["Behavioral Changes"], diagnosis: "Stress or Neurological Issue", medicine: ["Calming Agents"], organic: "Chamomile infusion." },
+                { symptoms: ["Seizures"], diagnosis: "Neurological Disorder", medicine: ["Anti-seizure Medication"], organic: "Balanced diet." },
+                { symptoms: ["Poor Growth"], diagnosis: "Nutritional Deficiency", medicine: ["Protein Supplements"], organic: "Balanced feed." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Anti-diarrheal"], organic: "Chamomile and pumpkin puree" },
+                { symptoms: ["Poor Egg Production", "Decreased Appetite"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens and balanced feed" },
+                { symptoms: ["Nasal Discharge", "Respiratory Distress"], diagnosis: "Avian Influenza", medicine: ["Antibiotics"], organic: "Basil tea" },
+                { symptoms: ["Lethargy", "Swollen Joints"], diagnosis: "Arthritis and Viral Infection", medicine: ["Anti-inflammatory drugs", "Antiviral drugs"], organic: "Turmeric paste application" },
+                { symptoms: ["Abdominal Pain", "Diarrhea with Blood"], diagnosis: "Colitis or Salmonella Infection", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Mint infusion and chamomile tea" },
+                { symptoms: ["Poor Feather Condition", "Weight Loss"], diagnosis: "Vitamin Deficiency or Parasitic Infestation", medicine: ["Vitamin Supplements", "Dewormers"], organic: "Flaxseed oil and crushed neem leaves" },
+                { symptoms: ["Sudden Death", "Swollen Neck"], diagnosis: "Fowl Cholera", medicine: ["Antibiotics"], organic: "Garlic water" },
+                { symptoms: ["Decreased Appetite", "Excessive Thirst"], diagnosis: "Kidney Infection or Dehydration", medicine: ["Antibiotics", "Fluid Therapy"], organic: "Coconut water and fresh clean water" },
+                { symptoms: ["Skin Lesions", "Swollen Neck"], diagnosis: "Fungal Infection or Viral Infection", medicine: ["Topical Antifungals", "Antibiotics"], organic: "Aloe vera gel and honey rinse" },
+                { symptoms: ["Behavioral Changes", "Seizures"], diagnosis: "Neurological Issue", medicine: ["Anticonvulsants"], organic: "Chamomile infusion" },
+                { symptoms: ["Poor Growth", "Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Mineral Supplements"], organic: "Balanced feed and fresh greens" },
+                { symptoms: ["Cough", "Poor Feather Condition"], diagnosis: "Respiratory Infection and Vitamin Deficiency", medicine: ["Antibiotics", "Vitamin Supplements"], organic: "Honey and ginger tea with flaxseed oil" },
+                { symptoms: ["Diarrhea", "Abdominal Pain"], diagnosis: "Gastrointestinal Infection", medicine: ["Antibiotics", "Anti-diarrheal"], organic: "Mint infusion and peppermint tea" },
+                { symptoms: ["Fever", "Diarrhea with Blood"], diagnosis: "Infectious Gastroenteritis", medicine: ["Broad-spectrum Antibiotics"], organic: "Ginger and pumpkin puree" },
+                { symptoms: ["Excessive Thirst", "Swollen Joints"], diagnosis: "Arthritis and Dehydration", medicine: ["Anti-inflammatory drugs", "Electrolyte Solution"], organic: "Turmeric paste and coconut water" },
+                { symptoms: ["Swollen Neck", "Decreased Appetite"], diagnosis: "Fowl Pox or Viral Infection", medicine: ["Antibiotics"], organic: "Garlic water and fresh greens" }
+            ],
+            rabbit: [
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Steam inhalation with eucalyptus." },
+                { symptoms: ["Fever"], diagnosis: "Viral Fever", medicine: ["Paracetamol"], organic: "Hydration with herbal teas." },
+                { symptoms: ["Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree." },
+                { symptoms: ["Loss of Appetite"], diagnosis: "Digestive Stasis", medicine: ["Digestive Enzymes"], organic: "Mint infusion." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Dewormers"], organic: "Papaya seeds." },
+                { symptoms: ["Lethargy"], diagnosis: "Anemia", medicine: ["Iron Supplements"], organic: "Beetroot juice." },
+                { symptoms: ["Abnormal Behavior"], diagnosis: "Neurological Disorder", medicine: ["Calmatives"], organic: "Chamomile tea." },
+                { symptoms: ["Sneezing"], diagnosis: "Nasal Irritation", medicine: ["Antihistamines"], organic: "Steam inhalation." },
+                { symptoms: ["Runny Nose"], diagnosis: "Sinusitis", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Watery Eyes"], diagnosis: "Conjunctivitis", medicine: ["Eye Drops"], organic: "Chamomile eye wash." },
+                { symptoms: ["Swollen Abdomen"], diagnosis: "Bloating", medicine: ["Antacids"], organic: "Fennel water." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Multivitamins"], organic: "Flaxseed oil." },
+                { symptoms: ["Lameness"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory"], organic: "Warm compress." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea." },
+                { symptoms: ["Skin Rash"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Aloe vera gel." },
+                { symptoms: ["Dehydration"], diagnosis: "Dehydration", medicine: ["Oral Rehydration Solution"], organic: "Electrolyte water." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Respiratory Distress", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Kidney Issues", medicine: ["Diuretics"], organic: "Cucumber juice." },
+                { symptoms: ["Poor Grooming"], diagnosis: "Dental Problems", medicine: ["Dental Care"], organic: "Proper diet." },
+                { symptoms: ["Change in Urination Pattern"], diagnosis: "Urinary Tract Infection", medicine: ["Antibiotics"], organic: "Cranberry extract." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Anti-diarrheal"], organic: "Pumpkin puree and chamomile" },
+                { symptoms: ["Loss of Appetite", "Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens and hay" },
+                { symptoms: ["Abnormal Behavior", "Swollen Abdomen"], diagnosis: "Gastrointestinal Stasis", medicine: ["Prokinetic drugs", "Pain relievers"], organic: "Dandelion root tea" },
+                { symptoms: ["Sneezing", "Runny Nose"], diagnosis: "Upper Respiratory Infection", medicine: ["Antibiotics"], organic: "Steam inhalation with eucalyptus oil" },
+                { symptoms: ["Watery Eyes", "Skin Rash"], diagnosis: "Allergic Reaction", medicine: ["Antihistamines"], organic: "Oatmeal bath for skin" },
+                { symptoms: ["Swollen Abdomen", "Abdominal Pain"], diagnosis: "Bloat or Gastrointestinal Disturbance", medicine: ["Anti-spasmodics"], organic: "Peppermint tea" },
+                { symptoms: ["Poor Coat Condition", "Lameness"], diagnosis: "Nutritional Deficiency or Arthritis", medicine: ["Vitamin Supplements", "Anti-inflammatory drugs"], organic: "Flaxseed oil and turmeric paste" },
+                { symptoms: ["Skin Rash", "Dehydration"], diagnosis: "Dermatitis and Dehydration", medicine: ["Topical steroids", "Fluid therapy"], organic: "Aloe vera gel and coconut water" },
+                { symptoms: ["Difficulty Breathing", "Excessive Thirst"], diagnosis: "Respiratory Distress or Dehydration", medicine: ["Bronchodilators", "Fluid therapy"], organic: "Fresh water and mint tea" },
+                { symptoms: ["Poor Grooming", "Lethargy"], diagnosis: "Cushing's Disease or Parasites", medicine: ["Anti-parasitic medications"], organic: "Coconut oil for grooming" },
+                { symptoms: ["Change in Urination Pattern", "Weight Loss"], diagnosis: "Kidney Infection or Diabetes", medicine: ["Antibiotics", "Insulin (if diabetic)"], organic: "Cranberry extract and water" },
+                { symptoms: ["Cough", "Abdominal Pain"], diagnosis: "Respiratory Infection with Gastrointestinal Upset", medicine: ["Antibiotics", "Anti-spasmodics"], organic: "Chamomile tea and ginger" },
+                { symptoms: ["Fever", "Swollen Abdomen"], diagnosis: "Infectious Disease or Gastrointestinal Stasis", medicine: ["Antibiotics", "Prokinetic drugs"], organic: "Cabbage leaves and dandelion root tea" },
+                { symptoms: ["Loss of Appetite", "Dehydration"], diagnosis: "Gastrointestinal Stasis or Dehydration", medicine: ["Fluid therapy", "Antibiotics"], organic: "Electrolyte water and pumpkin puree" },
+                { symptoms: ["Skin Rash", "Lethargy"], diagnosis: "Parasite Infestation", medicine: ["Anti-parasitic drugs"], organic: "Neem oil and aloe vera" },
+                { symptoms: ["Excessive Thirst", "Change in Urination Pattern"], diagnosis: "Diabetes or Kidney Disease", medicine: ["Insulin", "Fluid therapy"], organic: "Low-sugar hydration" }
+            ],
+            donkey: [
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Cough Syrup"], organic: "Steam inhalation with eucalyptus." },
+                { symptoms: ["Fever"], diagnosis: "Fever", medicine: ["Paracetamol"], organic: "Hydration and ginger tea." },
+                { symptoms: ["Diarrhea"], diagnosis: "Gastrointestinal Upset", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Dewormers"], organic: "Crushed neem leaves." },
+                { symptoms: ["Lethargy"], diagnosis: "Nutritional Deficiency", medicine: ["Multivitamins"], organic: "Balanced feed." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Omega-3 Capsules"], organic: "Flaxseed oil." },
+                { symptoms: ["Joint Pain"], diagnosis: "Arthritis", medicine: ["Anti-inflammatory"], organic: "Turmeric paste application." },
+                { symptoms: ["Lameness"], diagnosis: "Hoof Issues", medicine: ["Hoof Care"], organic: "Neem oil application." },
+                { symptoms: ["Abnormal Appetite"], diagnosis: "Digestive Issue", medicine: ["Digestive Enzymes"], organic: "Mint infusion." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Eucalyptus steam." },
+                { symptoms: ["Poor Behavior"], diagnosis: "Stress or Anxiety", medicine: ["Calmatives"], organic: "Chamomile tea." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinus Infection", medicine: ["Antibiotics"], organic: "Basil tea." },
+                { symptoms: ["Excessive Salivation"], diagnosis: "Oral Lesions", medicine: ["Pain Relievers"], organic: "Honey rinse." },
+                { symptoms: ["Swollen Legs"], diagnosis: "Edema", medicine: ["Diuretics"], organic: "Cucumber juice." },
+                { symptoms: ["Poor Hoof Condition"], diagnosis: "Hoof Infection", medicine: ["Antifungal Spray"], organic: "Warm water soak." },
+                { symptoms: ["Weakness"], diagnosis: "Anemia", medicine: ["Iron Supplements"], organic: "Beetroot juice." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Kidney Issues", medicine: ["Diuretics"], organic: "Cucumber extract." },
+                { symptoms: ["Respiratory Issues"], diagnosis: "Lung Infection", medicine: ["Antibiotics"], organic: "Herbal teas." },
+                { symptoms: ["Skin Lesions"], diagnosis: "Fungal Infection", medicine: ["Topical Antifungals"], organic: "Aloe vera gel." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Anti-diarrheal"], organic: "Pumpkin puree and chamomile" },
+                { symptoms: ["Lethargy", "Poor Coat Condition"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens and hay" },
+                { symptoms: ["Joint Pain", "Lameness"], diagnosis: "Arthritis or Injury", medicine: ["Anti-inflammatory drugs"], organic: "Turmeric paste application" },
+                { symptoms: ["Abnormal Appetite", "Difficulty Breathing"], diagnosis: "Digestive or Respiratory Issues", medicine: ["Digestive Enzymes", "Bronchodilators"], organic: "Peppermint tea and steam inhalation" },
+                { symptoms: ["Poor Behavior", "Weakness"], diagnosis: "Stress or Neurological Issue", medicine: ["Calming Agents"], organic: "Chamomile infusion" },
+                { symptoms: ["Abdominal Pain", "Nasal Discharge"], diagnosis: "Gastrointestinal Distress or Respiratory Infection", medicine: ["Antibiotics", "Anti-spasmodics"], organic: "Ginger tea and peppermint" },
+                { symptoms: ["Excessive Salivation", "Swollen Legs"], diagnosis: "Infection or Toxicity", medicine: ["Antibiotics", "Pain Relievers"], organic: "Neem oil and warm compress" },
+                { symptoms: ["Poor Hoof Condition", "Weakness"], diagnosis: "Hoof Disease or Nutritional Deficiency", medicine: ["Hoof care supplements"], organic: "Flaxseed oil and balanced diet" },
+                { symptoms: ["Excessive Thirst", "Respiratory Issues"], diagnosis: "Dehydration or Respiratory Infection", medicine: ["Fluid therapy", "Antibiotics"], organic: "Coconut water and basil tea" },
+                { symptoms: ["Skin Lesions", "Lethargy"], diagnosis: "Fungal or Parasitic Infection", medicine: ["Topical Antifungals", "Anti-parasitic drugs"], organic: "Aloe vera gel and neem oil" },
+                { symptoms: ["Fever", "Swollen Legs"], diagnosis: "Infection or Inflammation", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Cough", "Respiratory Issues"], diagnosis: "Bronchitis or Pneumonia", medicine: ["Bronchodilators", "Antibiotics"], organic: "Eucalyptus steam" },
+                { symptoms: ["Excessive Salivation", "Nasal Discharge"], diagnosis: "Mouth or Nasal Infection", medicine: ["Antibiotics"], organic: "Saline wash and honey rinse" },
+                { symptoms: ["Lameness", "Poor Hoof Condition"], diagnosis: "Hoof Rot or Injury", medicine: ["Antifungal Spray", "Pain Relievers"], organic: "Apple cider vinegar foot soak" },
+                { symptoms: ["Abdominal Pain", "Weight Loss"], diagnosis: "Colic or Digestive Disorder", medicine: ["Antispasmodics", "Digestive Enzymes"], organic: "Peppermint tea and fennel seeds" }
+
+            ],
+            horse: [
+                { symptoms: ["Cough"], diagnosis: "Cough", medicine: ["Antibiotics"], organic: "Steam inhalation with eucalyptus." },
+                { symptoms: ["Fever"], diagnosis: "Viral Fever", medicine: ["Paracetamol"], organic: "Hydration with ginger tea." },
+                { symptoms: ["Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Anti-diarrheal"], organic: "Pumpkin puree." },
+                { symptoms: ["Weight Loss"], diagnosis: "Parasitic Infestation", medicine: ["Dewormers"], organic: "Crushed neem leaves." },
+                { symptoms: ["Lameness"], diagnosis: "Laminitis", medicine: ["Anti-inflammatory"], organic: "Cold-water hoof therapy." },
+                { symptoms: ["Respiratory Issues"], diagnosis: "Pneumonia", medicine: ["Bronchodilators"], organic: "Herbal teas with ginger." },
+                { symptoms: ["Poor Coat Condition"], diagnosis: "Vitamin Deficiency", medicine: ["Multivitamins"], organic: "Flaxseed oil in feed." },
+                { symptoms: ["Dehydration"], diagnosis: "Dehydration", medicine: ["Oral Rehydration Solution"], organic: "Electrolyte water." },
+                { symptoms: ["Nasal Discharge"], diagnosis: "Sinusitis", medicine: ["Antibiotics"], organic: "Basil infusion." },
+                { symptoms: ["Swollen Legs"], diagnosis: "Edema", medicine: ["Diuretics"], organic: "Cucumber juice." },
+                { symptoms: ["Abdominal Pain"], diagnosis: "Colic", medicine: ["Antispasmodics"], organic: "Peppermint tea." },
+                { symptoms: ["Poor Appetite"], diagnosis: "Digestive Issue", medicine: ["Digestive Enzymes"], organic: "Mint water." },
+                { symptoms: ["Excessive Thirst"], diagnosis: "Kidney Issues", medicine: ["Diuretics"], organic: "Watermelon juice." },
+                { symptoms: ["Skin Rash"], diagnosis: "Dermatitis", medicine: ["Topical Creams"], organic: "Aloe vera gel." },
+                { symptoms: ["Difficulty Breathing"], diagnosis: "Bronchitis", medicine: ["Bronchodilators"], organic: "Steam inhalation." },
+                { symptoms: ["Joint Pain"], diagnosis: "Arthritis", medicine: ["Anti-inflammatory"], organic: "Turmeric paste." },
+                { symptoms: ["Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Antibiotics"], organic: "Warm compress therapy." },
+                { symptoms: ["Poor Performance"], diagnosis: "Muscle Fatigue", medicine: ["Muscle Relaxants"], organic: "Balanced diet with electrolytes." },
+                { symptoms: ["Difficulty Walking"], diagnosis: "Hoof Infection", medicine: ["Antifungal Spray"], organic: "Neem oil treatment." },
+                { symptoms: ["Nervousness"], diagnosis: "Stress or Anxiety", medicine: ["Calmatives"], organic: "Chamomile tea." },
+                { symptoms: ["Fever", "Cough"], diagnosis: "Respiratory Infection", medicine: ["Antibiotics", "Cough Syrup"], organic: "Honey and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics"], organic: "Chamomile and pumpkin." },
+                { symptoms: ["Cough", "Weight Loss"], diagnosis: "Chronic Respiratory Disease", medicine: ["Antibiotics", "Anti-inflammatory drugs"], organic: "Echinacea and garlic." },
+                { symptoms: ["Diarrhea", "Joint Pain"], diagnosis: "Metabolic Disorder", medicine: ["Anti-inflammatory", "Dehydration therapy"], organic: "Turmeric and ginger tea." },
+                { symptoms: ["Fever", "Diarrhea", "Weight Loss"], diagnosis: "Severe Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Rehydration Therapy"], organic: "Ginger tea, pumpkin puree, and coconut water." },
+                { symptoms: ["Cough", "Respiratory Distress"], diagnosis: "Pneumonia", medicine: ["Antibiotics", "Cough Syrup", "Anti-inflammatory drugs"], organic: "Eucalyptus oil steam inhalation" },
+                { symptoms: ["Fever", "Swollen Joints"], diagnosis: "Joint Infection", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Diarrhea", "Weight Loss"], diagnosis: "Gastrointestinal Infection", medicine: ["Broad-spectrum Antibiotics", "Anti-diarrheal"], organic: "Pumpkin puree and chamomile" },
+                { symptoms: ["Lethargy", "Poor Coat Condition"], diagnosis: "Nutritional Deficiency", medicine: ["Vitamin Supplements"], organic: "Fresh greens and hay" },
+                { symptoms: ["Joint Pain", "Lameness"], diagnosis: "Arthritis or Injury", medicine: ["Anti-inflammatory drugs"], organic: "Turmeric paste application" },
+                { symptoms: ["Abnormal Appetite", "Difficulty Breathing"], diagnosis: "Digestive or Respiratory Issues", medicine: ["Digestive Enzymes", "Bronchodilators"], organic: "Peppermint tea and steam inhalation" },
+                { symptoms: ["Poor Behavior", "Weakness"], diagnosis: "Stress or Neurological Issue", medicine: ["Calming Agents"], organic: "Chamomile infusion" },
+                { symptoms: ["Abdominal Pain", "Nasal Discharge"], diagnosis: "Gastrointestinal Distress or Respiratory Infection", medicine: ["Antibiotics", "Anti-spasmodics"], organic: "Ginger tea and peppermint" },
+                { symptoms: ["Excessive Salivation", "Swollen Legs"], diagnosis: "Infection or Toxicity", medicine: ["Antibiotics", "Pain Relievers"], organic: "Neem oil and warm compress" },
+                { symptoms: ["Poor Hoof Condition", "Weakness"], diagnosis: "Hoof Disease or Nutritional Deficiency", medicine: ["Hoof care supplements"], organic: "Flaxseed oil and balanced diet" },
+                { symptoms: ["Excessive Thirst", "Respiratory Issues"], diagnosis: "Dehydration or Respiratory Infection", medicine: ["Fluid therapy", "Antibiotics"], organic: "Coconut water and basil tea" },
+                { symptoms: ["Skin Lesions", "Lethargy"], diagnosis: "Fungal or Parasitic Infection", medicine: ["Topical Antifungals", "Anti-parasitic drugs"], organic: "Aloe vera gel and neem oil" },
+                { symptoms: ["Fever", "Swollen Legs"], diagnosis: "Infection or Inflammation", medicine: ["Anti-inflammatory drugs", "Antibiotics"], organic: "Turmeric and garlic paste" },
+                { symptoms: ["Cough", "Respiratory Issues"], diagnosis: "Bronchitis or Pneumonia", medicine: ["Bronchodilators", "Antibiotics"], organic: "Eucalyptus steam" },
+                { symptoms: ["Excessive Salivation", "Nasal Discharge"], diagnosis: "Mouth or Nasal Infection", medicine: ["Antibiotics"], organic: "Saline wash and honey rinse" },
+                { symptoms: ["Lameness", "Poor Hoof Condition"], diagnosis: "Hoof Rot or Injury", medicine: ["Antifungal Spray", "Pain Relievers"], organic: "Apple cider vinegar foot soak" },
+                { symptoms: ["Abdominal Pain", "Weight Loss"], diagnosis: "Colic or Digestive Disorder", medicine: ["Antispasmodics", "Digestive Enzymes"], organic: "Peppermint tea and fennel seeds" }
+            ]
+
+
+        };
+
+        // Update symptoms dynamically based on the selected animal
+        function updateSymptoms() {
+            const animalSelect = document.getElementById("animal-select");
+            const selectedAnimal = animalSelect.value;
+            const symptomsContainer = document.getElementById("symptoms-list");
+            symptomsContainer.innerHTML = "";
+
+            if (symptomsData[selectedAnimal]) {
+                symptomsData[selectedAnimal].forEach(symptom => {
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.value = symptom;
+                    checkbox.className = "symptom-item";
+
+                    const label = document.createElement("label");
+                    label.innerText = symptom;
+                    label.className = "mr-3";
+
+                    const div = document.createElement("div");
+                    div.className = "symptom-item";
+                    div.appendChild(checkbox);
+                    div.appendChild(label);
+                    symptomsContainer.appendChild(div);
+                });
+            }
+        }
+
+        // Get diagnosis based on selected symptoms
+        function getDiagnosis() {
+            const selectedAnimal = document.getElementById("animal-select").value;
+            const checkedSymptoms = Array.from(document.querySelectorAll(".symptom-item input:checked")).map(item => item.value);
+            const resultContainer = document.getElementById("diagnosis-result");
+            resultContainer.style.display = "none";
+
+            if (!selectedAnimal || checkedSymptoms.length === 0) {
+                alert("Please select an animal and at least one symptom.");
+                return;
+            }
+
+            // Find exact diagnosis for checked symptoms
+            const diagnosisMatch = diagnosisData[selectedAnimal]?.find(entry =>
+                entry.symptoms.length === checkedSymptoms.length &&
+                entry.symptoms.every(symptom => checkedSymptoms.includes(symptom))
+            );
+
+            if (diagnosisMatch) {
+                resultContainer.innerHTML = `
+        <strong>Diagnosis:</strong> ${diagnosisMatch.diagnosis} <br>
+        <strong>Medical Solution:</strong> ${diagnosisMatch.medicine.join(", ")} <br>
+        <strong>Organic Solution:</strong> ${diagnosisMatch.organic}
+      `;
+                resultContainer.style.display = "block";
+            } else {
+                resultContainer.innerHTML = `
+      <h3>No exact match found.</h3>
+      <p>Based on the symptoms you selected, it might be related to the following disease:</p>
+      <ul>
+        <li><strong>General Infection</strong> (e.g., fever, coughing, fatigue, etc.)</li>
+      </ul>
+      <p><strong>Tip:</strong> Please adjust your symptom selection or select other symptoms for a more accurate diagnosis.</p>;`
+                resultContainer.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "fullName": "ahmad",
+  "username": "ahmad6789",
+  "email": "ahmad6789@gmail.com",
+  "password": "1234567890",
+  "phone": "1234567890",
+  "address": "ythj",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732e5c92e68e93e99d9db52"
+  },
+  "fullName": "ali",
+  "username": "aliakbar2001",
+  "email": "helllo@gamil.com",
+  "password": "1234",
+  "phone": "03174474974",
+  "address": "lahore",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732e83532fc2cae44e9791c"
+  },
+  "fullName": "ali",
+  "username": "ali759",
+  "email": "di@gamil.com",
+  "password": "ali",
+  "phone": "985433",
+  "__v": 0
+}]

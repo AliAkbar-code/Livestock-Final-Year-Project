@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Doctors</title>
+    <link rel="stylesheet" href="styl.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+  />
+  <link rel="icon" type="image/x-icon" href="/logo.jpeg" style="border-radius: 50%;">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f7f7f7;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .nav-link {
+            color: #03aa03 !important;
+            font-weight: bold;
+        }
+
+        .intro {
+            padding: 4em 0;
+            background: #fff;
+            color: #333;
+        }
+
+        .intro h1 {
+            color: #03aa03;
+            font-size: 2.5em;
+        }
+
+        .intro h2 {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .intro p {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .find-doctor-btn {
+            background-color: #03aa03;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .find-doctor-btn:hover {
+            background-color: #028a02;
+        }
+
+        .services {
+            padding: 4em 0;
+            background: #fff;
+        }
+
+        .service-card {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 3em 0;
+        }
+
+        .footer h5 {
+            color: #fff;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+        .service-card img {
+        width: 100%;           /* Full width inside the card */
+        height: 200px;         /* Set a fixed height for uniformity */
+        object-fit: cover;     /* Crop the image to fit within the specified dimensions */
+        border-radius: 8px; 
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img src="logo.jpeg" alt="Clinic Logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="expertsystem">Our Experts System</a></li>
+                    <li class="nav-item"><a class="nav-link" href="adddoctor">Apply to Join</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main id="home">
+        <section class="intro">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1>We Are Providing</h1>
+                        <h2>The Best Medical Services</h2>
+                        <p>Our animal hospital is dedicated to providing top-notch care for your pets. With a team of experienced veterinarians and state-of-the-art facilities, we ensure that your pets receive the best possible treatment.</p>
+                        <a href="finddoctor" class="find-doctor-btn" style="text-decoration: none;">Find a Doctor</a>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="doctor image.jpg" alt="Animal Hospital" class="img-fluid rounded">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="text-center mb-5">Our Services</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="service-card">
+                            <img src="IMG-20240705-WA0002.jpg" alt="Service 1" class="img-fluid">
+                            <h3>Book Appointment</h3>
+                            <p>Book your Appointment .</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="service-card">
+                            <img src="IMG-20240705-WA0003.jpg" alt="Service 2" class="img-fluid">
+                            <h3>Expert System</h3>
+                            <p>Providing first hand information.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="service-card">
+                            <img src="IMG-20240705-WA0006.jpg" alt="Service 3" class="img-fluid">
+                            <h3>Direct Chat</h3>
+                            <p>Direct Chat with the Doctor .</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Livestock Healthmark</h5>
+                    <p>Enhancing livestock health through innovative management solutions. Ensuring optimal care and market integration.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="aboutus">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="btn btn-outline-light btn-sm mr-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-sm mr-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-sm mr-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 All Rights Reserved | Livestock HealthMark</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

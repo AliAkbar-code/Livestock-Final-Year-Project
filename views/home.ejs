@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Marketplace</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body{
+            font-family: 'Arial', sans-serif;
+        }
+        /* Ensure the image fits within the card and maintains aspect ratio */
+.card-img-top {
+    width: 100%;          /* Make the image fill the width of the card */
+    height: 200px;        /* Set a fixed height for the images */
+    object-fit: cover;    /* Ensures the image covers the area without stretching */
+    border-top-left-radius: calc(.25rem - 1px);  /* Match the card border radius */
+    border-top-right-radius: calc(.25rem - 1px); /* Match the card border radius */
+}
+
+/* Optional: Add some margin between images and card content */
+.card-body {
+    padding-top: 15px;
+}
+.hu{
+    padding-left: 500px;
+}
+.bor {
+  border: px solid #ccc; /* adjust the border style as needed */
+  box-sizing: border-box; /* make sure the border is included in the element's width and height */
+  padding: 10px; /* add some padding to make the border visible */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* add a box shadow */
+height: 650px;
+}
+
+.anm {
+  transition: transform 0.2s ease-in-out;
+}
+
+.anm:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.green{
+    color: rgb(3, 170, 3);
+
+}
+.myiu{
+  padding: 0px;
+}
+ /* red dot  */
+ .has-items {
+    position: relative;
+}
+
+.has-items::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+}
+
+    </style>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); background-color: #ac3c3c;" >
+        <div class="container-fluid">
+          <!-- Left Side: Logo and Website Name -->
+          <a class="navbar-brand d-flex align-items-center" href="/">
+            <img
+              src="logo.jpeg"
+              alt=""
+              width="50"
+              height="50"
+              border-radius="50px"
+              class="d-inline-block align-text-top logo"
+            />
+            <span class="ms-2" style="margin-left: 10px;  font-family: 'Arial', sans-serif; color: rgb(3, 170, 3);"  >Livestock Healthmark</span>
+          </a>
+  
+          <!-- Toggler/collapsing button for small screens -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          
+          <!-- Right Side: Nav Links, Search, and Sign-in/Sign-up -->
+          <div class="collapse navbar-collapse myiu" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item hu" style="margin-left: -100px;">
+                <a class="nav-link active green" aria-current="page" href="/" style="color:rgb(3, 170, 3);">Home</a>
+              </li>
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle green" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:rgb(3, 170, 3);">Services</a>
+                <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                  <li><a class="dropdown-item green" href="home" style="color:rgb(3, 170, 3);">Market</a></li>
+                  <li><a class="dropdown-item green" href="doctormain" style="color:rgb(3, 170, 3);">Consultancy</a></li>
+                  
+                  <li><a class="dropdown-item green" href="Fodder" style="color:rgb(3, 170, 3);">Fooder</a></li>
+                </ul>
+              </li>
+            
+              <li class="nav-item">
+                <a class="nav-link green" href="home" style="color:rgb(3, 170, 3);">Marketspace</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link green" href="addseller" style="color:rgb(3, 170, 3);">Become a seller</a>
+              </li> -->
+            
+              <li class="nav-item">
+                <a class="nav-link green" href="aboutus" style="color:rgb(3, 170, 3);">About Us</a>
+              </li>
+            
+              <li class="nav-item">
+                <a href="addusers" class="nav-link green" style="color:rgb(3, 170, 3);">Sign-in</a>
+              </li>
+            
+              <!-- Search Icon -->
+              
+            </ul>
+            
+            <!-- Search Bar (hidden initially, with animation) -->
+            <div id="searchBarContainer">
+              <input type="text" id="animalSearch" class="form-control" placeholder="Search animals..." onkeyup="searchAnimals()">
+            </div>
+            
+            
+            <!-- Search Bar (hidden initially) -->
+            
+            
+            <!-- <form class="d-flex ms-3" action="/search" method="get">
+              <input
+                class="form-control me-2"
+                type="search"
+                name="query"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+          </form> -->
+          
+            <!-- <button class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs  -target="#authModal">Sign In / Sign Up</button> -->
+          </div>
+         
+        </div>
+      </nav>
+
+      <div class="container-fluid mt-5">
+        <div class="row">
+            <!-- Filter Section -->
+            <div class="col-md-3 bor">
+              <h4 style="color: rgb(3, 170, 3);">Filters</h4>
+              <form id="filterForm" action="/search" method="GET">
+                  <div class="form-group">
+                      <label for="animalType">Animal Type</label>
+                      <select class="form-control" id="animalType" name="animalType">
+                          <option value="all">All</option>
+                          <option value="cow">Cow</option>
+                          <option value="sheep">Sheep</option>
+                          <option value="Horse">Horse</option>
+                          <option value="goat">Goat</option>
+                          <option value="Buffalo">Buffalo</option>
+                          <option value="Hen">Hen</option>
+                          <option value="Rabbit">Rabbit</option>
+                          <option value="Duck">Duck</option>
+                          <option value="Cat">Cat</option>
+                          <option value="Dog">Dog</option>
+                          <option value="Donkey">Donkey</option>
+                      </select>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="breed">Breed</label>
+                      <select class="form-control" id="breed" name="breed">
+                          <option value="all">All</option>
+                          <option value="Sahiwal">Sahiwal</option>
+                          <option value="Desi Hen">Desi Hen</option>
+                          <option value="Kamori Goat">Kamori Goat</option>
+                          <option value="Pakistani Shorthair">Pakistani Shorthair</option>
+                          <option value="Angora Rabbit">Angora Rabbit</option>
+                          <option value="Nili Ravi">Nili Ravi</option>
+                          <option value="Sindhi">Sindhi</option>
+                      </select>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="color">Color</label>
+                      <select class="form-control" id="color" name="color">
+                          <option value="all">All</option>
+                          <option value="Black">Black</option>
+                          <option value="Brown">Brown</option>
+                          <option value="White">White</option>
+                          <option value="Spotted">Spotted</option>
+                      </select>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="ageRange">Age Range</label>
+                      <select class="form-control" id="ageRange" name="ageRange">
+                          <option value="all">All</option>
+                          <option value="0-1">0-1 Year</option>
+                          <option value="1-3">1-3 Years</option>
+                          <option value="3+">3+ Years</option>
+                      </select>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="location">Location</label>
+                      <select class="form-control" id="location" name="location">
+                          <option value="all">All</option>
+                          <option value="Lahore">Lahore</option>
+                          <option value="karachi">Karachi</option>
+                          <option value="Faislabad">Faislabad</option>
+                      </select>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="priceRange">Price Range</label>
+                      <input type="range" class="form-control-range" id="priceRange" name="priceRange" min="0" max="500000" step="1000" value="0">
+                      <small class="form-text text-muted">Up to Rs<span id="priceValue">500000</span></small>
+                  </div>
+                 
+          
+                  <button type="submit" class="btn btn-primary">Apply Filters</button>
+              </form>
+          </div>
+          
+            
+            <!-- JavaScript to update price range value -->
+            <script>
+            document.getElementById('priceRange').addEventListener('input', function () {
+                document.getElementById('priceValue').textContent = this.value;
+            });
+            </script>
+            
+            <!-- Marketplace Section -->
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 style="color: rgb(3, 170, 3);" >Newly Added Livestock</h3>
+                    <!-- <div>
+                      <a href="/cart" class="cart-icon">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="badge badge-pill badge-danger" id="cart-count">0</span>
+                      </a>
+                    </div> -->
+
+                    <!-- Cart Icon in Navbar -->
+<nav class="navbar">
+  <!-- Other navbar content -->
+  <div class="cart-icon">
+      <a href="/cart">
+          <i class="fa fa-shopping-cart"></i> 
+          <span id="cart-count" class="badge badge-danger">0</span>
+      </a>
+  </div>
+</nav>
+
+                    
+                </div>
+                <!-- <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+    // Load cart items from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCartCount();
+
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const animalId = this.dataset.animalId;
+            const animalName = this.dataset.animalName;
+            const animalPrice = this.dataset.animalPrice;
+            const animalImage = this.dataset.animalImage;
+
+            // Add animal to cart
+            const item = { id: animalId, name: animalName, price: animalPrice, image: animalImage, quantity: 1 };
+            addToCart(item);
+        });
+    });
+
+    function addToCart(item) {
+        // Check if the animal is already in the cart
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
+
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push(item);
+        }
+
+        // Save to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cart-count').textContent = count;
+    }
+});
+
+                </script> -->
+
+                <div class="row" id="marketplace">
+                  <% animals.forEach(animal => { %>
+                      <div class="col-md-4 mb-4">
+                          <div class="card anm">
+                              <img src="/image/<%= animal._id %>" class="card-img-top" alt="<%= animal.name %>">
+                              <div class="card-body ">
+                                  <h5 class="card-title"><%= animal.name %></h5>
+                                  <p class="card-text">
+                                      <strong>Breed:</strong> <%= animal.breed %><br>
+                                      <strong>Age:</strong> <%= animal.age %> Years<br>
+                                      <strong>Color:</strong> <%= animal.color %><br>
+                                      <strong>Location:</strong> <%= animal.location %><br>
+                                      <strong>Price:</strong> Rs <%= animal.price %><br>
+                                      <strong>Stock:</strong> <%= animal.stock > 0 ? animal.stock : 'Out of Stock' %>
+                                  </p>
+                                  <button class="btn btn-primary add-to-cart" 
+                                      data-animal-id="<%= animal._id %>" 
+                                      data-animal-name="<%= animal.name %>" 
+                                      data-animal-price="<%= animal.price %>" 
+                                      data-animal-image="/image/<%= animal._id %>"
+                                      <%= animal.stock === 0 ? 'disabled' : '' %> <!-- Disable if stock is 0 -->
+                                   
+                                      Add to Cart
+                                  </button>
+              
+                                  <a href="/lisitng/<%= animal._id %>">
+                                      <button class="btn btn-secondary">Details</button>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  <% }) %>
+              </div>
+              
+                
+                
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <!-- Description -->
+            <div class="col-md-4 description">
+              <h4>Livestock Healthmark</h4>
+              <p>
+                Enhancing livestock health through innovative management
+                solutions. Ensuring optimal care and market integration.
+              </p>
+            </div>
+  
+            <!-- Quick Links and Other Links -->
+            <div class="col-md-4 links">
+              <div class="row">
+                <div class="col-6">
+                  <h5>Quick Links</h5>
+                  <ul class="list-unstyled">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="aboutus">About Us</a></li>
+                    <!-- <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li> -->
+                  </ul>
+                </div>
+                <!-- <div class="col-6">
+                  <h5>Other Links</h5>
+                  <ul class="list-unstyled">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Support</a></li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+  
+            <!-- Social Media Links -->
+            <div class="col-md-4">
+              <h5>Follow Us</h5>
+              <div class="social-icons">
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="fo">
+        <div class="foo">
+          <p class="copyright">
+            © 2024 All Rights Reserved | Livestock HealthMark
+          </p>
+        </div>
+      </div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+// On document load, initialize the cart count from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartIcon();
+});
+
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        const animalId = button.getAttribute('data-animal-id');
+        const animalName = button.getAttribute('data-animal-name');
+        const animalPrice = parseFloat(button.getAttribute('data-animal-price'));
+        const animalImage = button.getAttribute('data-animal-image');
+
+        // Check if the item already exists in the cart
+        const existingItem = cart.find(item => item._id === animalId);
+
+        if (existingItem) {
+            // Increase quantity if the item already exists in the cart
+            alert(animalName + " is already in the cart.");
+        } else {
+            // Add the new item with quantity set to 1
+            cart.push({
+                _id: animalId,
+                name: animalName,
+                price: animalPrice,
+                image: animalImage,
+                quantity: 1
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${animalName} added to cart!`);
+            updateCartIcon();
+        }
+
+    });
+});
+
+// Add to Cart functionality
+
+
+// kl kiya tha comment 
+
+
+// document.querySelectorAll('.add-to-cart').forEach(button => {
+//     button.addEventListener('click', function() {
+//         const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+//         const animalId = button.getAttribute('data-animal-id');
+//         const animalName = button.getAttribute('data-animal-name');
+//         const animalPrice = parseFloat(button.getAttribute('data-animal-price'));
+//         const animalImage = button.getAttribute('data-animal-image');        
+//         // Check if the animal is already in the cart
+//         const existingAnimal = cart.find(item => item.id === animalId);
+        
+//         if (existingAnimal) {
+//             alert(animalName + " is already in the cart.");
+//         } else {
+//             // Add new animal to cart
+//             cart.push({
+//                 id: animalId,
+//                 name: animalName,
+//                 price: animalPrice,
+//                 image: animalImage,
+//                 quantity: 1 // Initial quantity
+//             });
+            
+//             // Save cart back to localStorage
+//             localStorage.setItem('cart', JSON.stringify(cart));
+
+//             // Update cart icon
+//             updateCartIcon();
+            
+//             // alert(animalName + " added to cart.");
+//         }
+//     });
+// });
+
+// Function to update cart icon with the number of items
+function updateCartIcon() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    document.getElementById('cart-count').innerText = cart.length;
+}
+
+
+//  let animals = [
+//     { name: 'Bella', type: 'cow', breed: 'Holstein', age: 2, color: 'Black & White', location: 'Texas', price: 2000, image: 'https://via.placeholder.com/150' },
+//     { name: 'Max', type: 'cattle', breed: 'Angus', age: 3, color: 'Black', location: 'California', price: 3000, image: 'https://via.placeholder.com/150' },
+//     { name: 'Luna', type: 'cow', breed: 'Jersey', age: 1, color: 'Brown', location: 'Florida', price: 1500, image: 'https://via.placeholder.com/150' },
+//     { name: 'Daisy', type: 'goat', breed: 'Nubian', age: 4, color: 'White', location: 'New York', price: 1000, image: 'https://via.placeholder.com/150' },
+//     { name: 'Charlie', type: 'sheep', breed: 'Merino', age: 2, color: 'White', location: 'Oregon', price: 800, image: 'https://via.placeholder.com/150' },
+//     { name: 'Molly', type: 'cow', breed: 'Hereford', age: 5, color: 'Red & White', location: 'Texas', price: 2500, image: 'https://via.placeholder.com/150' },
+//     { name: 'Buddy', type: 'cattle', breed: 'Brahman', age: 3, color: 'Grey', location: 'Arizona', price: 3500, image: 'https://via.placeholder.com/150' },
+//     { name: 'Lucy', type: 'sheep', breed: 'Suffolk', age: 1, color: 'Black', location: 'Washington', price: 700, image: 'https://via.placeholder.com/150'},
+//     { name: 'Duke', type: 'goat', breed: 'Boer', age: 2, color: 'Brown & White', location: 'Nevada', price: 1200, image: 'https://via.placeholder.com/150' }
+// ];
+
+
+
+
+
+
+
+//     document.getElementById('priceRange').addEventListener('input', function() {
+//         document.getElementById('priceValue').innerText = this.value;
+//     });
+
+//     document.getElementById('filterForm').addEventListener('submit', function(event) {
+//         event.preventDefault();
+//         applyFilters();
+//     });
+
+//     function applyFilters() {
+//         const type = document.getElementById('animalType').value;
+//         const breed = document.getElementById('breed').value;
+//         const color = document.getElementById('color').value;
+//         const ageRange = document.getElementById('ageRange').value;
+//         const location = document.getElementById('location').value;
+//         const priceRange = document.getElementById('priceRange').value;
+
+//         const filteredAnimals = animals.filter(animal => {
+//             return (type === 'all' || animal.type === type) &&
+//                    (breed === 'all' || animal.breed === breed) &&
+//                    (color === 'all' || animal.color === color) &&
+//                    (ageRange === 'all' || (ageRange === '0-1' && animal.age <= 1) || (ageRange === '1-3' && animal.age > 1 && animal.age <= 3) || (ageRange === '3+' && animal.age > 3)) &&
+//                    (location === 'all' || animal.location === location) &&
+//                    (animal.price <= priceRange);
+//         });
+
+//         loadMarketplace(filteredAnimals);
+//     }
+
+//     function loadMarketplace(filteredAnimals = animals) {
+//         const marketplace = document.getElementById('marketplace');
+//         marketplace.innerHTML = filteredAnimals.map(animal => createAnimalCard(animal)).join('');
+//     }
+
+// //     function createAnimalCard(animal) {
+// //     return `
+// //         <div class="col-md-4 mb-4">
+// //             <div class="card">
+// //                 <img src="${animal.image}" class="card-img-top" alt="${animal.name}">
+// //                 <div class="card-body">
+// //                     <h5 class="card-title">${animal.name}</h5>
+// //                     <p class="card-text">
+// //                         <strong>Breed:</strong> ${animal.breed}<br>
+// //                         <strong>Age:</strong> ${animal.age} Years<br>
+// //                         <strong>Color:</strong> ${animal.color}<br>
+// //                         <strong>Location:</strong> ${animal.location}<br>
+// //                         <strong>Price:</strong> $${animal.price}
+// //                     </p>
+// //                     <button class="btn btn-primary" onclick="addToCart(${animal.price}, '${animal.name}')">Add to Cart</button>
+
+// //                     <button class="btn btn-secondary">Details</button>
+// //                 </div>
+// //             </div>
+// //         </div>
+// //     `;
+// // }
+
+
+//     function addToCart(price, name) {
+//         cart.push({ price, name });
+//         document.getElementById('cartCount').innerText = cart.length;
+//     }
+
+//     function viewCart() {
+//         let cartHTML = '<h4>Your Cart</h4>';
+//         if (cart.length === 0) {
+//             cartHTML += '<p>Your cart is empty.</p>';
+//         } else {
+//             cartHTML += '<ul class="list-group">';
+//             cart.forEach((item, index) => {
+//                 cartHTML += <li class="list-group-item">${item.name} - $${item.price}</li>;
+//             });
+//             cartHTML += '</ul>';
+//         }
+//         document.getElementById('marketplace').innerHTML = cartHTML;
+//     }
+
+//     // Load the marketplace with all animals on page load
+//     window.onload = () => loadMarketplace();
+
+//     // Initialize an empty array to store cart items
+//     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// function addToCart(price, name) {
+//     const existingItem = cart.find(item => item.name === name);
+
+//     if (existingItem) {
+//         existingItem.quantity += 1;
+//     } else {
+//         cart.push({ price: price, name: name, quantity: 1 });
+//     }
+
+//     updateCartCount();
+//     saveCart();
+// }
+
+// function updateCartCount() {
+//     const cartCountElement = document.getElementById('cartCount');
+//     cartCountElement.innerText = cart.reduce((acc, item) => acc + item.quantity, 0);
+// }
+
+// function saveCart() {
+//     localStorage.setItem('cart', JSON.stringify(cart));
+// }
+// abhi comment kiya  
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     // Load cart count from localStorage
+    //     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //     const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    //     document.getElementById('cartCount').textContent = cartCount;
+
+    //     // Event listener for "Add to Cart" buttons
+    //     document.querySelectorAll('.add-to-cart').forEach(button => {
+    //         button.addEventListener('click', () => {
+    //             const animalId = button.getAttribute('data-animal-id');
+    //             const animalName = button.getAttribute('data-animal-name');
+    //             const animalPrice = parseFloat(button.getAttribute('data-animal-price'));
+    //             const animalImage = button.getAttribute('data-animal-image');
+
+    //             let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //             const existingItemIndex = cart.findIndex(item => item.id === animalId);
+
+    //             if (existingItemIndex > -1) {
+    //                 cart[existingItemIndex].quantity += 1;
+    //             } else {
+    //                 cart.push({
+    //                     id: animalId,
+    //                     name: animalName,
+    //                     price: animalPrice,
+    //                     image: animalImage,
+    //                     quantity: 1
+    //                 });
+    //             }
+
+    //             localStorage.setItem('cart', JSON.stringify(cart));
+    //             localStorage.setItem('cartCount', cart.reduce((total, item) => total + item.quantity, 0));
+
+    //             document.getElementById('cartCount').textContent = localStorage.getItem('cartCount');
+    //             // Optionally, show an alert or message
+    //             // alert('Animal added to cart!');
+    //         });
+    //     });
+    // });
+    // ya 19 september ko comment kiya ha  
+    
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   // Function to update cart count
+    //   function updateCartIcon() {
+    //     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //     document.getElementById('cartCount').textContent = cart.length;
+    //   }
+      
+    //   // Function to add item to cart
+    //   function addToCart(animal) {
+    //     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //     cart.push(animal);
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+    //     updateCartIcon();
+    //   }
+
+    //   // Event listener for 'Add to Cart' buttons
+    //   document.querySelectorAll('.add-to-cart').forEach(button => {
+    //     button.addEventListener('click', function() {
+    //       const animalId = this.getAttribute('data-animal-id');
+    //       const name = this.getAttribute('data-animal-name');
+    //       const price = this.getAttribute('data-animal-price');
+    //       const image = this.getAttribute('data-animal-image');
+        
+    //     const cartItem = { animalId, name, price, image };
+    //     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //     cart.push(cartItem);
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+        
+    //     updateCartCount();
+    //   });
+    // });
+    
+    
+    // Update cart icon on page load
+    
+    // });
+    
+    // ya aj krne lga hon jb new sa start krna ha 19 september se 
+
+
+
+
+
+</script>
+<script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+<script src="scripts.js">
+
+</script>
+<script>
+  function searchAnimals() {
+  const input = document.getElementById("animalSearch").value.toLowerCase();
+  const animals = document.querySelectorAll("#marketplace .col-md-4");
+
+  animals.forEach((animal) => {
+    const name = animal.querySelector(".card-title").textContent.toLowerCase();
+    const breed = animal.querySelector(".card-text").textContent.toLowerCase();
+
+    if (name.includes(input) || breed.includes(input)) {
+      animal.style.display = "block";
+    } else {
+      animal.style.display = "none";
+    }
+  });
+}
+
+document.getElementById("searchIcon").addEventListener("click", function() {
+  const searchBar = document.getElementById("searchBar");
+  searchBar.style.display = searchBar.style.display === "none" ? "block" : "none";
+});
+
+function searchAnimals() {
+  const input = document.getElementById("animalSearch").value.toLowerCase();
+  const animals = document.querySelectorAll("#marketplace .col-md-4");
+
+  animals.forEach((animal) => {
+    const name = animal.querySelector(".card-title").textContent.toLowerCase();
+    const breed = animal.querySelector(".card-text").textContent.toLowerCase();
+
+    animal.style.display = name.includes(input) || breed.includes(input) ? "block" : "none";
+  });
+}
+
+ 
+</script>
+</body>
+</html>

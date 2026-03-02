@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthMark</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <!-- <link rel="stylesheet" href="bootstrap.min.css"> -->
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="/logo.jpeg" style="border-radius: 50%;">
+    <style>
+      .img{
+        /* width: auto  ; */
+          height: auto;     /* Set a fixed height for the images */
+    object-fit: cover;    /* Ensures the image covers the area without stretching */
+    border-top-left-radius: calc(.25rem - 1px);  /* Match the card border radius */
+    border-top-right-radius: calc(.25rem - 1px); /* Match the card border radius */
+}
+.services-section {
+  margin-top: 50px;
+}
+
+.card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card-title {
+  color: #039b03;
+  font-weight: bold;
+  text-align: center;
+}
+
+.card-text {
+  color: #333;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.h-100 {
+  height: 100%;
+}
+.gu{
+  margin-top: 50px;
+}
+
+      /* image ka liya ha  */
+
+      .animal-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.animal-item {
+  flex: 1 0 auto;
+  text-align: center;
+  padding: 10px;
+}
+
+.animal-item img {
+  width: 150px; /* Adjust this size as needed */
+  height: 150px; /* Adjust this size as needed */
+  object-fit: cover;
+}
+
+      
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+      <div class="container-fluid">
+        <!-- Left Side: Logo and Website Name -->
+        <a class="navbar-brand d-flex align-items-center" href="/">
+          <img
+            src="logo.jpeg"
+            alt=""
+            width="50"
+            height="50"
+            border-radius="50px"
+            class="d-inline-block align-text-top logo"
+          />
+          <span class="ms-2" style="color:rgb(3, 170, 3) ; font-weight: bold  ; ">Livestock Healthmark</span>
+        </a>
+
+        <!-- Toggler/collapsing button for small screens -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Right Side: Nav Links, Search, and Sign-in/Sign-up -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/"  style="color:rgb(3, 170, 3) ;">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="servicesDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color:rgb(3, 170, 3) ;"
+              >
+                Services
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                <li><a class="dropdown-item" href="home" style="color:rgb(3, 170, 3) ;"> Market</a></li>
+                <li><a class="dropdown-item" href="doctormain" style="color:rgb(3, 170, 3) ;">Consultancy</a></li>
+                <li><a class="dropdown-item" href="Fodder" style="color:rgb(3, 170, 3) ;">Fooder</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="home" style="color:rgb(3, 170, 3) ;">Marketspace</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="aboutus" style="color:rgb(3, 170, 3) ;">About Us</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="adminsignup" style="color:rgb(3, 170, 3) ;">Admin</a>
+            </li> -->
+            <li class="nav-item">
+              <a
+                href="addusers"
+                class="nav-link" style="color:rgb(3, 170, 3) ;">
+                Sign-in
+                </a>
+                
+            </li>
+            <li class="nav-item">
+              <a href="" class="nav-link" style="color:rgb(3, 170, 3) ;">
+               
+              </a>
+            </li>
+            
+          </ul>
+          <!-- <form class="d-flex ms-3" action="/search" method="get">
+            <input
+              class="form-control me-2"
+              type="search"
+              name="query"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+        </form> -->
+        
+          <!-- <button class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs  -target="#authModal">Sign In / Sign Up</button> -->
+        </div>
+      </div>
+    </nav>
+
+    <!-- form  -->
+
+    <!-- <div class="backdrop" id="backdrop"></div> -->
+
+    <!-- Modal for Sign-in / Sign-up -->
+
+    <!-- Container Section -->
+    <div class="h1 container hero-section primary">
+      <h1 class="display-4 h1 head" style="padding-top: 150px; " >Livestock HealthMark</h1>
+      <p class="lead h1">Explore our offerings and find what you need.</p>
+      <a class="link" href="home">  <button class="browser-listing-btn" style="background-color:rgb(3, 170, 3) ;"> Browser Listing </button></a>
+
+      <!-- <a href="#" class="btn-browse">Browse Listings</a> -->
+      <!-- <button class="mybtn " >B</button> -->
+      <!-- <a href="#listings" class="mybtn btn btn-primary btn-lg ">View Listings</a> -->
+    </div>
+    <!-- feature animals  -->
+
+    <div class="container">
+      <section class="animal-carousel">
+        <h2 class="carousel-heading" style="color:rgb(3, 170, 3)">Featured Animals</h2>
+        <button class="arrow left-arrow">&#10094;</button>
+        <div class="animal-container d-flex">
+          <!-- Repeat the following block for each animal -->
+          
+          <!-- Cow -->
+          <a href="cow" class="animal-item img" style="text-decoration: none;">
+            <img src="cow.jpg" alt="Cow" class="img-fluid" />
+            <p>Cow</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Hen -->
+          <a href="hen" class="animal-item img" style="text-decoration: none;">
+            <img src="Hen.jpg" alt="Hen" class="img-fluid" />
+            <p>Hen</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Goat -->
+          <a href="goat" class="animal-item img" style="text-decoration: none;">
+            <img src="Goat.jpg" alt="Goat" class="img-fluid" />
+            <p>Goat</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Sheep -->
+          <a href="sheep" class="animal-item img" style="text-decoration: none;">
+            <img src="Sheep.jpg" alt="Sheep" class="img-fluid" />
+            <p>Sheep</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Cat -->
+          <a href="cat" class="animal-item img" style="text-decoration: none;">
+            <img src="Cat.jpg" alt="Cat" class="img-fluid" />
+            <p>Cat</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Rabbit -->
+          <a href="rabbit" class="animal-item img" style="text-decoration: none;">
+            <img src="Rabbit.jpg" alt="Rabbit" class="img-fluid" />
+            <p>Rabbit</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Horse -->
+          <a href="horse" class="animal-item img" style="text-decoration: none;">
+            <img src="Horse.jpg" alt="Horse" class="img-fluid" />
+            <p>Horse</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Duck -->
+          <a href="duck" class="animal-item img" style="text-decoration: none;">
+            <img src="Duck.jpg" alt="Duck" class="img-fluid" />
+            <p>Duck</p>
+            <p>Read More</p>
+          </a>
+    
+          <!-- Buffalo -->
+          <a href="buffalo" class="animal-item img"style="text-decoration: none;">
+            <img src="Buffalo.jpg" alt="Buffalo" class="img-fluid" />
+            <p>Buffalo</p>
+            <p>Read More</p>
+          </a>
+        </div>
+        <button class="arrow right-arrow">&#10095;</button>
+      </section>
+    </div>
+    
+
+    <!-- Our Services Section -->
+    <div class="mycontainer container services-section"> 
+      <h2 class="display-4 myser" style="color:rgb(3, 170, 3); text-align: center;">Our Services</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h3 class="card-title">Our Expert System</h3>
+              <p class="card-text">
+                We provide an advanced Expert System for diagnosis.
+              </p>
+              <div class="text-center">
+                <a href="expertsystem" class="btn btn-success btn-lg">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h3 class="card-title">Buy And Sell</h3>
+              <p class="card-text">
+                We are provided the best livestock animals in the marketspace  
+              </p>
+              <div class="text-center">
+                <a href="home" class="btn btn-success btn-lg">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h3 class="card-title">Fodder</h3>
+              <p class="card-text">
+                All information about livestock animals.
+              </p>
+              <div class="text-center gu">
+                <a href="Fodder" class="btn btn-success btn-lg">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- seller  -->
+    <hr />
+    <!-- Seller Section -->
+    <section class="seller-section py-5 bg-light">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+          <h2 class="display-4">Meet Our Sellers</h2>
+          <p class="lead">Trusted livestock sellers from across the region.</p>
+        </div>
+
+
+        <div class="container mt-4">
+          <div class="row" style="text-align: center;">
+            <% sellers.forEach(function(seller) { %>
+              <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 border-0" style="background-color: #f8f9fa; border-radius: 10px;">
+                  <div class="card-body text-center">
+                    <!-- Seller Image -->
+                    <a href="/seller/<%= seller._id %>">
+                    <% if (seller.image && seller.image.data) { %>
+                      <img src="data:<%= seller.image.contentType %>;base64,<%= seller.image.data.toString('base64') %>" 
+                           alt="Seller Image" 
+                           class="img-fluid rounded-circle mb-3" 
+                           style="width: 100px; height: 100px; object-fit: cover;">
+                    <% } else { %>
+                      <!-- Placeholder if no image is available -->
+                      <img src="/path/to/default-placeholder.png" 
+                           alt="No Image Available" 
+                           class="img-fluid rounded-circle mb-3" 
+                           style="width: 100px; height: 100px; object-fit: cover;">
+                    <% } %>
+                    </a>
+                    <!-- Seller Name -->
+                    <h5 class="card-title mb-2" style="font-weight: 600; color: #343a40;"><%= seller.name %></h5>
+                    <!-- Seller Email -->
+                    <p class="card-text text-muted"><%= seller.email %></p>
+                    <!-- View Listings Button -->
+                    <!-- <a href="addseller" class="btn btn-success">View List</a> -->
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+            <a href="addseller" class="btn btn-success" style="width: 35%; margin-left: 430px;">Become a seller</a>
+          </div>
+        </div>
+        
+        
+        
+        <!-- Become a Seller CTA -->
+        <!-- <button style="width: 100px; height: 20px;">
+<a href="addseller">add</a>
+
+        </button> -->
+      </div>
+    </section>
+
+    <hr />
+    <!-- doctor section  -->
+
+    <!-- <section class="doctor-section py-5 bg-light"> -->
+      <!-- <div class="container"> -->
+        <!-- Section Header -->
+        <!-- <div class="text-center mb-5">
+          <h2 class="display-4">Meet Our Doctors</h2>
+          <p class="lead">
+            Experienced medical professionals dedicated to your health.
+          </p>
+        </div> -->
+
+        <!-- Doctor Cards -->
+        <!-- <div class="row"> -->
+          <!-- Doctor Card 1 -->
+        
+          <!-- <div class="col-md-4 mb-4"> -->
+            <!-- <div class="card shadow-sm h-100"> -->
+              <!-- <img
+                src="doctor1.jpg"
+                class="card-img-top rounded-circle mx-auto mt-4"
+                alt="Doctor Photo"
+                style="width: 100px; height: 100px"
+              /> -->
+              <!-- <div class="card-body text-center"> -->
+               
+                <!-- </p> -->
+                 <!-- <div class="rating text-warning mb-3"> </div> --> 
+                <!-- <a href="#" class="btn btn-primary"></a> -->
+              <!-- </div> -->
+            <!-- </div> -->
+          <!-- </div> -->
+      
+
+        <!-- Become a Doctor CTA -->
+        <section class="seller-section py-5 bg-light">
+          <div class="container">
+            <!-- Section Header -->
+            <div class="text-center mb-5">
+              <h2 class="display-4">Meet Our Doctor</h2>
+              <p class="lead">Trusted livestock doctors from across the region.</p>
+            </div>
+    
+    
+            <div class="container mt-4">
+              <div class="row" style="text-align: center;">
+                <% doctors.slice(0, 3).forEach(function(doctor) { %>
+                  <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100 border-0" style="background-color: #f8f9fa; border-radius: 10px;">
+                      <div class="card-body text-center">
+                        <!-- Doctor Image -->
+                        <a href="/doctor/<%= doctor._id %>">
+                        <% if (doctor.image) { %>
+                          <img src="data:<%= doctor.image.contentType %>;base64,<%= doctor.image.data.toString('base64') %>" 
+                               alt="Doctor Image" 
+                               class="img-fluid rounded-circle mb-3" 
+                               style="width: 100px; height: 100px; object-fit: cover;">
+                        <% } else { %>
+                          <!-- Placeholder if no image is available -->
+                          <img src="/path/to/default-placeholder.png" 
+                               alt="No Image Available" 
+                               class="img-fluid rounded-circle mb-3" 
+                               style="width: 100px; height: 100px; object-fit: cover;">
+                        <% } %>
+                      </a>
+                        
+                        <!-- Doctor Name -->
+                        <h5 class="card-title mb-2" style="font-weight: 600; color: #343a40;"><%= doctor.name %></h5>
+                        <!-- Doctor Email -->
+                        <p><strong>Specialty:</strong> <%= doctor.specialty %></p>
+                        <p>
+                          <strong>Email:</strong> <%= doctor.email %></p>
+                        <p>
+                       
+                        <p><strong>Location:</strong> <%= doctor.location || 'Not available' %></p>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+                <a href="/finddoctor">view more </a>
+              </div>
+            </div>
+            
+          </a>
+            
+            <!-- Become a Seller CTA -->
+            
+          </div>
+        </section>
+
+    <!-- footer  -->
+
+    <!-- 2nd footer  -->
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- Description -->
+          <div class="col-md-4 description">
+            <h4>Livestock Healthmark</h4>
+            <p>
+              Enhancing livestock health through innovative management
+              solutions. Ensuring optimal care and market integration.
+            </p>
+          </div>
+
+          <!-- Quick Links and Other Links -->
+          <div class="col-md-4 links">
+            <div class="row">
+              <div class="col-6">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="aboutus">About Us</a></li>
+                  <!-- <li><a href="#">Services</a></li>
+                  <li><a href="#">Contact</a></li> -->
+                </ul>
+              </div>
+              <!-- <div class="col-6">
+                <h5>Other Links</h5>
+                <ul class="list-unstyled">
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">FAQs</a></li>
+                  <li><a href="#">Support</a></li>
+                </ul>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Social Media Links -->
+          <div class="col-md-4">
+            <h5>Follow Us</h5>
+            <div class="social-icons">
+              <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+              <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+              <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="fo">
+      <div class="foo">
+        <p class="copyright">
+          © 2024 All Rights Reserved | Livestock HealthMark
+        </p>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- <script src="bootstrap.min.js"></script> -->
+
+    <script src="scripts.js"></script>
+  </body>
+</html>

@@ -1,0 +1,304 @@
+[{
+  "_id": {
+    "$oid": "6735bdd0006437f662099b40"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-15T00:00:00.000Z"
+  },
+  "appointmentTime": "19:06",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735bdfd9b1add4970ae59fe"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-21T00:00:00.000Z"
+  },
+  "appointmentTime": "19:08",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735be1c43a3a09486cd02b0"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-12-26T00:00:00.000Z"
+  },
+  "appointmentTime": "20:09",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735bee143a3a09486cd02b3"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-12-26T00:00:00.000Z"
+  },
+  "appointmentTime": "20:09",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735bf1bbd6d7db303c685c4"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-12-26T00:00:00.000Z"
+  },
+  "appointmentTime": "20:09",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c0e2d154be1b0fa9d21e"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-27T00:00:00.000Z"
+  },
+  "appointmentTime": "19:09",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c1a6aec2d2b6f55348e0"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-16T00:00:00.000Z"
+  },
+  "appointmentTime": "20:07",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c30bf79df378db1793cc"
+  },
+  "doctorId": {
+    "$oid": "6734f2425a9be296ac21bb5a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-29T00:00:00.000Z"
+  },
+  "appointmentTime": "21:07",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c326c0ab9cd13969043f"
+  },
+  "doctorId": {
+    "$oid": "6734f2425a9be296ac21bb5a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-29T00:00:00.000Z"
+  },
+  "appointmentTime": "21:07",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c32ec0ab9cd139690443"
+  },
+  "doctorId": {
+    "$oid": "6734f2425a9be296ac21bb5a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-22T00:00:00.000Z"
+  },
+  "appointmentTime": "21:08",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c338e01d6da89eb21d31"
+  },
+  "doctorId": {
+    "$oid": "6734f2425a9be296ac21bb5a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-22T00:00:00.000Z"
+  },
+  "appointmentTime": "21:08",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735cc65834da1723009e818"
+  },
+  "doctorId": {
+    "$oid": "6735cc2c834da1723009e80a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-20T00:00:00.000Z"
+  },
+  "appointmentTime": "18:07",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735cc8855fa322381df5d4f"
+  },
+  "doctorId": {
+    "$oid": "6735cc2c834da1723009e80a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-26T00:00:00.000Z"
+  },
+  "appointmentTime": "21:08",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735cc9a2cf5ab18aa76c122"
+  },
+  "doctorId": {
+    "$oid": "6735cc2c834da1723009e80a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-26T00:00:00.000Z"
+  },
+  "appointmentTime": "21:08",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735ced12cf5ab18aa76c127"
+  },
+  "doctorId": {
+    "$oid": "6735cc2c834da1723009e80a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-21T00:00:00.000Z"
+  },
+  "appointmentTime": "20:09",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735cef92cf5ab18aa76c12c"
+  },
+  "doctorId": {
+    "$oid": "6734f2425a9be296ac21bb5a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-12-02T00:00:00.000Z"
+  },
+  "appointmentTime": "20:07",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735cf4bf5095bd8d3e16591"
+  },
+  "doctorId": {
+    "$oid": "6734f2425a9be296ac21bb5a"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-27T00:00:00.000Z"
+  },
+  "appointmentTime": "21:09",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6737732a11ac895f381538ef"
+  },
+  "doctorId": {
+    "$oid": "67344f3d2d1b96dff2fe7fe8"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-28T00:00:00.000Z"
+  },
+  "appointmentTime": "18:07",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673838a1999c76c87fb46232"
+  },
+  "doctorId": {
+    "$oid": "67383798999c76c87fb4621f"
+  },
+  "userId": {
+    "$oid": "66e07bbdbd17bc4004277cdb"
+  },
+  "appointmentDate": {
+    "$date": "2024-11-20T00:00:00.000Z"
+  },
+  "appointmentTime": "20:09",
+  "__v": 0
+}]

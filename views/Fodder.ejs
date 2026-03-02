@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fodder</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+        }
+
+        /* Categories Button */
+        .categories-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .categories-button button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .categories-list {
+            display: none;
+            margin-top: 0px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 15px;
+            position: absolute;
+        }
+
+        .categories-list.show {
+            display: block;
+        }
+
+        .categories-list a {
+            display: block;
+            padding: 5px 10px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .categories-list a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Hero Section Full Screen */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background-image: url('hero-background.jpg');
+            /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            color: black;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: -1;
+        }
+
+        .hero-text {
+            flex: 3;
+            max-width: 75%;
+            z-index: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            max-width: 25%;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .hero-section button {
+            padding: 15px 30px;
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+
+        /* Blogs Section Horizontal Layout */
+        .blogs-section {
+            padding: 50px 20px;
+            background-color: #ffffff;
+            text-align: center;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .blogs-section h2 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .blog-card {
+            display: inline-block;
+            background-color: #f7f7f7;
+            padding: 20px;
+            margin: 0 10px;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            vertical-align: top;
+            white-space: normal;
+            transition: transform 0.3s;
+        }
+
+        .blog-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            color: #28a745;
+        }
+
+        .blog-card p {
+            color: #555;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+    <style>
+        /* feature animals  */
+        .container {
+            max-width: 100%;
+        }
+
+        .animal-carousel {
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            /* Light background color */
+            padding: 40px 0;
+        }
+
+        .carousel-heading {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .animal-container {
+            display: flex;
+            overflow-x: scroll;
+            /* Still allow scrolling */
+            scroll-behavior: smooth;
+            padding: 0 20px;
+            scrollbar-width: none;
+            /* For Firefox */
+            -ms-overflow-style: none;
+            /* For Internet Explorer and Edge */
+        }
+
+        .animal-container::-webkit-scrollbar {
+            display: none;
+            /* For Chrome, Safari, and Opera */
+        }
+
+        .animal-item {
+            flex: 0 0 auto;
+            text-align: center;
+            margin: 0 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            width: 200px;
+            /* Adjust width as needed */
+        }
+
+        .animal-item img {
+            width: 100%;
+            /* Full width of the box */
+            height: 180px;
+            border-radius: 8px;
+        }
+
+        .animal-item p {
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 2;
+            transition: background-color 0.3s;
+        }
+
+        .left-arrow {
+            left: 10px;
+        }
+
+        .right-arrow {
+            right: 10px;
+        }
+
+        .arrow:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Categories Button on Left Side -->
+    <div class="categories-button">
+        <button onclick="toggleCategories()">Categories</button>
+        <div id="categories-list" class="categories-list">
+            <a href="cow">Cows</a>
+            <a href="goats">Goats</a>
+            <a href="chickens">Chickens</a>
+            <a href="dogs">Dogs</a>
+            <a href="sheep">Sheep</a>
+            <a href="horses">Horses</a>
+            <a href="donkey">Donkeys</a>
+            <a href="buffalo">Buffalo</a>
+            <a href="cat">Cats</a>
+            <a href="rabbits">Rabbits</a>
+            
+            <a href="ducks">Ducks</a>
+            <!-- Add more animal categories as needed -->
+        </div>
+    </div>
+
+    <!-- Hero Section Full Screen -->
+    <section class="hero-section container-fluid d-flex align-items-center">
+        <div class="row w-100">
+            <div class="hero-text col-md-2">
+                <h1 style="text-align: center; color: #28a745; font-weight: bold;">Fodders</h1>
+                <p>The fodder facility on the Livestock Healthcare and Marketing Management System website offers
+                    valuable guidance to users on proper animal nutrition. It provides tailored advice on the best
+                    feeding practices, ensuring animals receive a balanced diet for optimal health and productivity.
+                    Users can access information on various types of fodder, including nutritional content, recommended
+                    quantities, and feeding schedules. This resource helps farmers make informed decisions about their
+                    livestock's diet, ultimately contributing to better animal welfare, increased production efficiency,
+                    and sustainable farming practices.</p>
+                <p>Discover valuable insights on animal nutrition, healthcare, and effective management practices.</p>
+                <!-- <button>Explore Now</button> -->
+            </div>
+            <div class="hero-image col-md-8">
+                <img src="fooder.jpg" alt="Hero Image"> <!-- Replace with your image URL -->
+            </div>
+        </div>
+    </section>
+    <section class="most-searched-animals">
+        <!-- <div class="container">
+            <section class="animal-carousel position-relative">
+                <h2 class="carousel-heading">Featured Animals</h2>
+                <button class="arrow left-arrow"><i class="bi bi-arrow-left-square-fill"></i></button>
+                <div class="animal-container">
+                    
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 1" class="img-fluid" />
+                        <p>Animal 1</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 2" class="img-fluid" />
+                        <p>Animal 2</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 3" class="img-fluid" />
+                        <p>Animal 3</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 4" class="img-fluid" />
+                        <p>Animal 4</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 5" class="img-fluid" />
+                        <p>Animal 5</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 6" class="img-fluid" />
+                        <p>Animal 6</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 7" class="img-fluid" />
+                        <p>Animal 7</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 8" class="img-fluid" />
+                        <p>Animal 8</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 9" class="img-fluid" />
+                        <p>Animal 9</p>
+                    </div>
+                    <div class="animal-item">
+                        <img src="https://via.placeholder.com/200" alt="Animal 10" class="img-fluid" />
+                        <p>Animal 10</p>
+                    </div>
+                </div>
+                <button class="arrow right-arrow"><i class="bi bi-arrow-right-square-fill"></i></button>
+            </section>
+        </div> -->
+        <div class="container">
+            <section class="animal-carousel">
+                <h2 style="color: #28a745; font-weight: bold;" class="carousel-heading">Featured Animals</h2>
+                <button class="arrow left-arrow">&#10094;</button>
+                <div class="animal-container d-flex">
+                    <!-- Repeat the following block for each animal -->
+                    <div class="animal-item img">
+                        <img src="./cow.jpg" alt="Animal 1" class="img-fluid" />
+                        <a style="color: #28a745;" href="cow.html"><p>Cows</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="./buffalo.jpeg" alt="Animal 2" class="img-fluid" />
+                        <a style="color: #28a745;" href="buffalo.html"><p>Buffalo</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="./chickens.jpg" alt="Animal 3" class="img-fluid" />
+                        <a style="color: #28a745;" href="chickens.html"><p>Chickens</p></a>
+                    </div>
+                    <!-- Add more animal items here -->
+                    <div class="animal-item img">
+                        <img src="goat.jpeg" alt="Animal 4" class="img-fluid" />
+                        <a style="color: #28a745;" href="horses.html"><p>Horse</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="./sheep.jpeg" alt="Animal 5" class="img-fluid" />
+                        <a style="color: #28a745;" href="sheep.html"><p>Sheeps</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="Cat.jpg" alt="Animal 6" class="img-fluid" />
+                        <a style="color: #28a745;" href="cat.html"><p>Cats</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="Rabbit.jpg" alt="Animal 7" class="img-fluid" />
+                        <a style="color: #28a745;" href="rabbits.html"><p>Rabbits</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="Horse.jpg" alt="Animal 8" class="img-fluid" />
+                        <a style="color: #28a745;" href="horses.html"><p>Horse</p></a>
+                    </div>
+                    <div class="animal-item img">
+                        <img src="./duck.jpg" alt="Animal 9" class="img-fluid" />
+                        <a style="color: #28a745;" href="ducks.html"><p>Ducks</p></a>
+                    </div>
+                </div>
+                <button class="arrow right-arrow">&#10095;</button>
+            </section>
+        </div>
+    </section>
+
+
+    <!-- Blogs Section -->
+
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom Script for Carousel Functionality -->
+    <script>
+        function toggleCategories() {
+            var list = document.getElementById('categories-list');
+            list.classList.toggle('show');
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.querySelector('.animal-container');
+            const items = document.querySelectorAll('.animal-item');
+            const itemWidth = items[0].offsetWidth + 30; // Include margin-right
+            const visibleItems = Math.floor(container.offsetWidth / itemWidth); // Number of visible items at once
+            const totalWidth = itemWidth * items.length;
+            let currentIndex = 0;
+
+            // Ensure container width is enough to display all items
+            container.style.width = `${totalWidth}px`;
+
+            document.querySelector('.right-arrow').addEventListener('click', () => {
+                if (currentIndex < items.length - visibleItems) {
+                    currentIndex++;
+                    container.style.transform = `translateX(-${itemWidth * currentIndex}px)`;
+                }
+            });
+
+            document.querySelector('.left-arrow').addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    container.style.transform = `translateX(-${itemWidth * currentIndex}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

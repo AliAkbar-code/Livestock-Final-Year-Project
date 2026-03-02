@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/logo.jpeg" style="border-radius: 50%;">
+    <!-- Custom CSS -->
+    <style>
+      body {
+        background-color: #f8f9fa;
+        color: #343a40;
+      }
+      .section-title {
+        margin-bottom: 30px;
+        position: relative;
+      }
+      .section-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        height: 4px;
+        width: 50px;
+        background-color: #007bff;
+      }
+      .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+      .card-img-top {
+        height: 200px;
+        object-fit: cover;
+      }
+      .contact-form {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .contact-form h2 {
+        margin-bottom: 20px;
+        color: #007bff;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+        <div class="container-fluid" >
+          <!-- Left Side: Logo and Website Name -->
+          <a class="navbar-brand d-flex align-items-center" href="#">
+            <img
+              src="logo.jpeg"
+              alt=""
+              width="50"
+              height="50"
+              border-radius="50px"
+              class="d-inline-block align-text-top logo"
+            />
+            <span class="ms-2" style="color:rgb(3, 170, 3) ; font-weight: bold  ; margin-left: 10px; ">Livestock Healthmark</span>
+          </a>
+  
+          <!-- Toggler/collapsing button for small screens -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <!-- Right Side: Nav Links, Search, and Sign-in/Sign-up -->
+          <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 520px;">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/"  style="color:rgb(3, 170, 3) ;">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="servicesDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style="color:rgb(3, 170, 3) ;"
+                >
+                  Services
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                  <li><a class="dropdown-item" href="#" style="color:rgb(3, 170, 3) ;"> Market</a></li>
+                  <li><a class="dropdown-item" href="doctormain" style="color:rgb(3, 170, 3) ;">Consultancy</a></li>
+                  <li><a class="dropdown-item" href="#" style="color:rgb(3, 170, 3) ;">Fooder</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="home" style="color:rgb(3, 170, 3) ;">Marketspace</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="aboutus" style="color:rgb(3, 170, 3) ;">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="adminsignup" style="color:rgb(3, 170, 3) ;">Admin</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="addusers"
+                  class="nav-link" style="color:rgb(3, 170, 3) ;">
+                  Sign-in
+                  </a>
+              </li>
+            </ul>
+            <!-- <form class="d-flex ms-3" action="/search" method="get">
+              <input
+                class="form-control me-2"
+                type="search"
+                name="query"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+          </form> -->
+          
+            <!-- <button class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs  -target="#authModal">Sign In / Sign Up</button> -->
+          </div>
+        </div>
+      </nav>
+    <!-- Container for the entire page -->
+    <div class="container mt-5">
+      <!-- About Us Section -->
+      <section id="about-us" class="mb-5">
+        <h2 class="section-title" style="color: rgb(3, 170, 3);">About Us</h2>
+        <p>
+          Welcome to Livestock HealthMark! We are a dedicated team of
+          professionals committed to revolutionizing the livestock industry
+          through innovative healthcare and marketing solutions. Our project
+          began with the vision to enhance the management of livestock health
+          and streamline marketing processes for farmers and stakeholders. By
+          integrating advanced technologies and data-driven insights, we provide
+          a comprehensive platform that addresses the unique challenges faced in
+          livestock management. Our goal is to support farmers with reliable
+          health management tools and effective marketing strategies, ensuring
+          the well-being of their animals and maximizing their business
+          potential. We are passionate about driving progress in the livestock
+          sector with a focus on reliability, efficiency, and user satisfaction
+        </p>
+      </section>
+
+      <!-- Mission Section -->
+      <section id="mission" class="mb-5">
+        <h2 class="section-title" style="color: rgb(3, 170, 3);">Our Mission</h2>
+        <p>
+          At Livestock HealthMark, our mission is to improve the health and
+          productivity of livestock while optimizing marketing efforts for
+          farmers and ranchers. We strive to provide an all-in-one solution that
+          integrates advanced healthcare management and innovative marketing
+          tools tailored specifically for the livestock industry. Our core
+          values include commitment to excellence, customer-centricity, and
+          technological advancement. We are dedicated to delivering solutions
+          that enhance animal welfare, increase operational efficiency, and
+          support sustainable practices in livestock management. Through our
+          platform, we aim to empower farmers with the knowledge and tools
+          needed to achieve better health outcomes and market their products
+          effectively, ultimately contributing to a more prosperous and
+          sustainable livestock industry
+        </p>
+      </section>
+
+      <!-- Developers Section -->
+      <section id="developers" class="mb-5">
+        <h2 class="section-title" style="color: rgb(3, 170, 3);">Meet Our Developers</h2>
+        <div class="row" style="justify-content: space-between;">
+            <!-- Developer 1 Card -->
+             
+
+               <div class="col-md-3">
+                 <div class="card">
+                  <a href="/aliprofile" style="text-decoration: none; color: rgb(3, 170, 3);"> <img
+                   src="frontend.jpg"
+                   class="card-img-top"
+                   alt="Photo of Ali Akbar Subhani, Backend Developer"
+                   />
+                   <div class="card-body text-center">
+                    <h5 class="card-title">ALI AKBAR SUBHANI</h5></a>
+                     <p class="card-text">
+                       Backend Developer
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              
+            
+            <!-- Developer 2 Card -->
+            <div class="col-md-3">
+                <div class="card">
+                  <a href="/ahmadprofile" style="text-decoration: none; color: rgb(3, 170, 3);" >   <img
+                        src="rename.jpg"
+                        class="card-img-top"
+                        alt="Photo of Ahmad Fiaz, Frontend Developer & UI Designer"
+                    />
+                    <div class="card-body text-center">
+                        <h5 class="card-title">AHMAD FIAZ</h5> </a>
+                        <p class="card-text">
+                            Frontend Developer & UI Design
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Developer 3 Card -->
+            <div class="col-md-3">
+                <div class="card">
+                  <a href="/umairprofile" style="text-decoration: none; color: rgb(3, 170, 3);">     <img
+                        src="Full stack.jpg"
+                        class="card-img-top"
+                        alt="Photo of Muhammad Umair, Frontend Developer"
+                    />
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Muhammad Umair</h5> </a>
+                        <p class="card-text">
+                            Frontend Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Add more fields as needed -->
+        
+      <!-- Contact Us Form -->
+      <section id="contact-us" class="mb-5">
+        <div class="contact-form">
+          <h2 style="color: rgb(3, 170, 3);">Contact Us</h2>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea class="form-control" id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <!-- Description -->
+            <div class="col-md-4 description">
+              <h4>Livestock Healthmark</h4>
+              <p>
+                Enhancing livestock health through innovative management
+                solutions. Ensuring optimal care and market integration.
+              </p>
+            </div>
+  
+            <!-- Quick Links and Other Links -->
+            <div class="col-md-4 links">
+              <div class="row">
+                <div class="col-6">
+                  <h5>Quick Links</h5>
+                  <ul class="list-unstyled">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="aboutus">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                  </ul>
+                </div>
+                <div class="col-6">
+                  <h5>Other Links</h5>
+                  <ul class="list-unstyled">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Support</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Social Media Links -->
+            <div class="col-md-4">
+              <h5>Follow Us</h5>
+              <div class="social-icons">
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm" role="button">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="fo">
+        <div class="foo">
+          <p class="copyright">
+            © 2024 All Rights Reserved | Livestock HealthMark
+          </p>
+        </div>
+      </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    try {
+      const response = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      });
+      
+      const data = await response.json();
+      alert(data.message);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message');
+    }
+  });
+    </script>
+  </body>
+</html>

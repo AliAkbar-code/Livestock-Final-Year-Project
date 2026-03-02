@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/logo.jpeg" style="border-radius: 50%;">
+    <title>Animal Doctors</title>
+    <style>
+        /* Your existing styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        /* Header Styles */
+        header {
+            /* background-color: #5cb85c; */
+            color: #000000;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        
+    header h1 {
+        margin: 0;
+    }
+    
+    /* Search Bar Styles */
+    .search-bar {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+    
+    .search-bar input {
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    .search-bar button {
+        padding: 0.5rem 1rem;
+        background-color: #5cb85c;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .search-bar button:hover {
+        background-color: #4cae4c;
+    }
+    
+    /* Main Content Styles */
+    main {
+        padding: 2rem;
+    }
+    
+    .doctor-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+    }
+    
+    .doctor-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        padding: 1rem;
+        text-align: center;
+        transition: transform 0.2s;
+    }
+    
+    .doctor-card:hover {
+        transform: scale(1.05);
+    }
+    
+    .doctor-card img {
+        border-radius: 8px;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .doctor-card h2 {
+        margin: 1rem 0 0.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .doctor-card p {
+        margin: 0.5rem 0;
+    }
+    
+    .doctor-card button {
+        padding: 0.5rem 1rem;
+        background-color: #5cb85c;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .doctor-card button:hover {
+        background-color: #4cae4c;
+    }
+    
+    /* Footer Styles */
+    footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+    }
+    
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 2rem;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        position: relative;
+    }
+    
+    .modal-content .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .modal-content h2 {
+        margin-top: 0;
+    }
+    
+    .modal-content form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .modal-content form label {
+        margin: 0.5rem 0;
+    }
+    
+    .modal-content form input,
+    .modal-content form select {
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    .modal-content form button {
+        padding: 0.5rem 1rem;
+        background-color: #5cb85c;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+    
+    .modal-content form button:hover {
+        background-color: #4cae4c;
+    }
+    body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        /* Header Styles */
+        header {
+            color: rgb(3, 170, 3);
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        /* Search Bar Styles */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-bar input, .search-bar button {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            min-width: 250px;
+        }
+    
+        .search-bar button {
+            background-color: #5cb85c;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background-color: #4cae4c;
+        }
+        
+        /* Main Content Styles */
+        main {
+            padding: 2rem;
+        }
+    
+        .doctor-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .doctor-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+    
+        .doctor-card:hover {
+            transform: scale(1.05);
+        }
+    
+        .doctor-card img {
+            border-radius: 8px;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    
+        .doctor-card h2 {
+            margin: 1rem 0 0.5rem;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        .doctor-card p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .doctor-card button {
+            padding: 0.5rem 1rem;
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    
+        .doctor-card button:hover {
+            background-color: #4cae4c;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+    
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 2rem;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .modal-content .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-content .close:hover {
+            color: #000;
+        }
+    
+        .modal-content h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .modal-content form label {
+            align-self: flex-start;
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+        
+        .modal-content form input,
+        .modal-content form select {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .modal-content form button {
+            padding: 0.75rem 1.5rem;
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-content form button:hover {
+            background-color: #4cae4c;
+        }
+        .doctor-card img {
+            border-radius: 8px;
+            width: 100%;
+            height: 200px;
+            object-fit: contain; /* Adjusted to show the full image */
+            background-color: #f4f4f4; /* Optional: adds a background to fill any empty space */
+        }
+    </style>
+</head>
+<body>
+    
+    <header style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); color: rgb(3, 170, 3);">
+        <h1>Our Animal Doctors</h1>
+    </header>
+
+    <main>
+        <!-- Search Bar Section -->
+        <section class="search-bar">
+            <input type="text" id="search-name" placeholder="Find a doctor by name...">
+            <input type="text" id="search-specialty" placeholder="Find a doctor by specialty...">
+            <input type="text" id="search-location" placeholder="Find a doctor by location...">
+        </section>
+
+        <!-- Doctor List Section -->
+        <section class="doctor-list" id="doctor-list">
+            <% doctors.forEach(doctor => { %>
+              <article class="doctor-card">
+                <a href="/doctor/<%= doctor._id %>">
+                  <% if (doctor.image && doctor.image.data) { %>
+                    <img src="data:<%= doctor.image.contentType %>;base64,<%= doctor.image.data.toString('base64') %>" alt="Dr. <%= doctor.username %>">
+                  <% } else { %>
+                    <img src="/default-image.jpg" alt="No profile picture available">
+                  <% } %>
+                </a>
+                <h2> <%= doctor.name %></h2>
+                <p>Specialty: <%= doctor.specialty %></p>
+                <p>Location: <%= doctor.location ? doctor.location : "Location not provided" %></p>
+                <p>Experience: <%= doctor.experience %> years</p>
+                <p>Qualifications: <%= doctor.qualifications %></p>
+                <p>Available Hours: <%= doctor.availableHours %></p>
+                <% if (doctor.consultationFee) { %>
+                  <p>Consultation Fee: Rs <%= doctor.consultationFee %></p>
+                <% } else { %>
+                  <p>Consultation Fee: Not available</p>
+                <% } %>
+          
+                <% if (User) { %>
+                  <a href="/chat?doctorId=<%= doctor._id %>&userId=<%= User._id %>">
+                    <button class="btn btn-primary">See Chat</button>
+                  </a>
+          
+                  <!-- Appointment Form -->
+                  <form action="/appointments" method="POST">
+                    <h3>Book an Appointment</h3>
+                    <input type="hidden" name="doctorId" value="<%= doctor._id %>">
+                    <input type="hidden" name="userId" value="<%= User._id %>">
+          
+                    <label for="appointment-date">Date:</label>
+                    <input type="date" id="appointment-date" name="appointmentDate" required>
+          
+                    <label for="appointment-time">Time:</label>
+                    <input type="time" id="appointment-time" name="appointmentTime" required>
+          
+                    <button type="submit" class="btn btn-success">Book Appointment</button>
+                  </form>
+                <% } else { %>
+                  <p>Please log in to contact the doctor or book an appointment.</p>
+                <% } %>
+              </article>
+            <% }); %>
+          </section>
+          
+          
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Animal Clinic. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Define valid animal specialties for the search filter
+        const validSpecialties = ["cow", "hen", "dog", "cattle", "camel", "rabbit", "donkey", "goat", "duck", "cat", "sheep", "horse", "buffalo"];
+    
+        function searchDoctor() {
+            const nameInput = document.getElementById('search-name').value.toLowerCase();
+            const specialtyInput = document.getElementById('search-specialty').value.toLowerCase();
+            const locationInput = document.getElementById('search-location').value.toLowerCase();
+            const doctors = document.querySelectorAll('.doctor-card');
+    
+            doctors.forEach(doctor => {
+                const name = doctor.querySelector('h2').textContent.toLowerCase();
+                const specialty = doctor.querySelector('p:nth-of-type(1)').textContent.toLowerCase();
+                const location = doctor.querySelector('p:nth-of-type(2)').textContent.toLowerCase();
+    
+                // Check if the specialty text matches the valid animal specialties
+                const matchesValidSpecialty = validSpecialties.some(animal => specialty.includes(animal) && animal.includes(specialtyInput));
+                const matchesName = name.includes(nameInput);
+                const matchesSpecialty = specialty.includes(specialtyInput) || matchesValidSpecialty; // Match specialty or valid animal specialty
+                const matchesLocation = location.includes(locationInput);
+    
+                if (matchesName && matchesSpecialty && matchesLocation) {
+                    doctor.style.display = 'block';
+                } else {
+                    doctor.style.display = 'none';
+                }
+            });
+        }
+    
+        // Event listeners for real-time search on input fields
+        document.getElementById('search-name').addEventListener('input', searchDoctor);
+        document.getElementById('search-specialty').addEventListener('input', searchDoctor);
+        document.getElementById('search-location').addEventListener('input', searchDoctor);
+    </script>
+    
+    
+</body>
+</html>

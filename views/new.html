@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Marketplace</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #ccc 3px solid;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .search-box {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-box input {
+            padding: 10px;
+            width: 200px;
+            margin: 5px;
+        }
+        .search-box button {
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .animal-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .animal-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 200px;
+            text-align: center;
+        }
+        .animal-card img {
+            width: 100%;
+            height: auto;
+        }
+        .animal-card h3 {
+            margin: 10px 0;
+        }
+        .animal-card p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Animal Marketplace</h1>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="nameSearch" placeholder="Search by name">
+            <input type="number" id="ageSearch" placeholder="Search by age">
+            <input type="text" id="breedSearch" placeholder="Search by breed">
+            <input type="text" id="colorSearch" placeholder="Search by color">
+            <input type="number" id="priceSearch" placeholder="Search by price">
+            <button onclick="searchAnimals()">Search</button>
+        </div>
+
+        <div id="animalList" class="animal-list">
+            <!-- Animal Cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const animals = [
+            { name: 'Bella', age: 3, breed: 'Labrador', color: 'Black', price: 500, image: 'https://via.placeholder.com/200' },
+            { name: 'Charlie', age: 2, breed: 'Beagle', color: 'Brown', price: 300, image: 'https://via.placeholder.com/200' },
+            { name: 'Lucy', age: 4, breed: 'Bulldog', color: 'White', price: 700, image: 'https://via.placeholder.com/200' },
+            { name: 'Max', age: 1, breed: 'Poodle', color: 'Grey', price: 400, image: 'https://via.placeholder.com/200' },
+            { name: 'Daisy', age: 5, breed: 'German Shepherd', color: 'Black and Tan', price: 600, image: 'https://via.placeholder.com/200' },
+            { name: 'Daisy', age: 5, breed: 'German Shepherd', color: 'Black and Tan', price: 600, image: 'https://via.placeholder.com/200' }
+                  
+          ];
+
+        function displayAnimals(filteredAnimals) {
+            const animalList = document.getElementById('animalList');
+            animalList.innerHTML = '';
+            filteredAnimals.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                card.innerHTML = `
+                    <img src="${animal.image}" alt="${animal.name}">
+                    <h3>${animal.name}</h3>
+                    <p>Age: ${animal.age}</p>
+                    <p>Breed: ${animal.breed}</p>
+                    <p>Color: ${animal.color}</p>
+                    <p>Price: $${animal.price}</p>
+                `;
+                animalList.appendChild(card);
+            });
+        }
+
+        function searchAnimals() {
+            const name = document.getElementById('nameSearch').value.toLowerCase();
+            const age = document.getElementById('ageSearch').value;
+            const breed = document.getElementById('breedSearch').value.toLowerCase();
+            const color = document.getElementById('colorSearch').value.toLowerCase();
+            const price = document.getElementById('priceSearch').value;
+
+            const filteredAnimals = animals.filter(animal => {
+                return (
+                    (name === '' || animal.name.toLowerCase().includes(name)) &&
+                    (age === '' || animal.age == age) &&
+                    (breed === '' || animal.breed.toLowerCase().includes(breed)) &&
+                    (color === '' || animal.color.toLowerCase().includes(color)) &&
+                    (price === '' || animal.price <= price)
+                );
+            });
+
+            displayAnimals(filteredAnimals);
+        }
+
+        // Initial display
+        displayAnimals(animals);
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .content {
+            padding: 20px;
+        }
+        .nav-link.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#add-animal">
+                                Add Animal
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#manage-animal">
+                                Manage Animal
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#add-seller">
+                                Add Seller
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#manage-seller">
+                                Manage Seller
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#add-doctor">
+                                Add Doctor
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#manage-doctor">
+                                Manage Doctor
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 content">
+                <!-- Add Animal -->
+                <div id="add-animal" class="mb-4">
+                    <h2>Add Animal</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="animalName">Animal Name</label>
+                            <input type="text" class="form-control" id="animalName" placeholder="Enter animal name">
+                        </div>
+                        <div class="form-group">
+                            <label for="animalCategory">Category</label>
+                            <select class="form-control" id="animalCategory">
+                                <option>Cow</option>
+                                <option>Sheep</option>
+                                <option>Cattle</option>
+                                <option>Goat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="animalPrice">Price</label>
+                            <input type="number" class="form-control" id="animalPrice" placeholder="Enter price">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Animal</button>
+                    </form>
+                </div>
+
+                <!-- Manage Animal -->
+                <div id="manage-animal" class="mb-4">
+                    <h2>Manage Animals</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row -->
+                            <tr>
+                                <td>1</td>
+                                <td>Animal Name</td>
+                                <td>Cow</td>
+                                <td>$1000</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm">Update</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Seller -->
+                <div id="add-seller" class="mb-4">
+                    <h2>Add Seller</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="sellerName">Seller Name</label>
+                            <input type="text" class="form-control" id="sellerName" placeholder="Enter seller name">
+                        </div>
+                        <div class="form-group">
+                            <label for="sellerEmail">Email address</label>
+                            <input type="email" class="form-control" id="sellerEmail" placeholder="Enter email">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Seller</button>
+                    </form>
+                </div>
+
+                <!-- Manage Seller -->
+                <div id="manage-seller" class="mb-4">
+                    <h2>Manage Sellers</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row -->
+                            <tr>
+                                <td>1</td>
+                                <td>Seller Name</td>
+                                <td>seller@example.com</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm">Update</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Doctor -->
+                <div id="add-doctor" class="mb-4">
+                    <h2>Add Doctor</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="doctorName">Doctor Name</label>
+                            <input type="text" class="form-control" id="doctorName" placeholder="Enter doctor name">
+                        </div>
+                        <div class="form-group">
+                            <label for="doctorEmail">Email address</label>
+                            <input type="email" class="form-control" id="doctorEmail" placeholder="Enter email">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Doctor</button>
+                    </form>
+                </div>
+
+                <!-- Manage Doctor -->
+                <div id="manage-doctor" class="mb-4">
+                    <h2>Manage Doctors</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row -->
+                            <tr>
+                                <td>1</td>
+                                <td>Doctor Name</td>
+                                <td>doctor@example.com</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm">Update</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

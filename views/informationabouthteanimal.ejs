@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 900px;
+        }
+        .animal-card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .animal-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .animal-details h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #343a40;
+        }
+        .animal-details p {
+            font-size: 16px;
+            color: #495057;
+        }
+        .animal-details .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #28a745;
+            margin-top: 20px;
+        }
+        .btn-buy {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+        .btn-buy:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="container">
+        <div class="animal-card">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="animal-image.jpg" alt="Animal Image" id="animal-image">
+                </div>
+                <div class="col-md-6 animal-details">
+                    <h2 id="animal-name">Animal Name</h2>
+                    <p id="animal-description">This is a detailed description of the animal. It provides information about the animal's species, age, characteristics, and any special care instructions or other relevant details.</p>
+                    <p class="price" id="animal-price">$250.00</p>
+                    <button class="btn btn-primary btn-buy" id="buy-button">Buy Now</button>
+                </div>
+            </div>
+        </div>
+        <div class="animal-card">
+            <h3>Additional Details</h3>
+            <ul id="additional-details">
+                <li>Age: 2 years</li>
+                <li>Breed: Labrador Retriever</li>
+                <li>Gender: Male</li>
+                <li>Vaccination Status: Up-to-date</li>
+                <li>Temperament: Friendly, Active</li>
+            </ul>
+        </div>
+    </div> -->
+    
+    <body>
+      <h1><%= animals.name %></h1>
+      <p>Price: <%= animals.price %></p>
+      <p>Age: <%= animals.age %></p>
+      <p>Breed: <%= animals.breed %></p>
+      <p>Description: <%= animals.description %></p>
+      <!-- You can add more details as needed -->
+      <a href="/marketplace">Back to Marketplace</a>
+    </body>
+    
+    
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // You can dynamically populate the page with animal data here using JavaScript or fetch from an API
+            const animal = {
+                name: "Buddy",
+                description: "Buddy is a friendly and energetic Labrador Retriever. He loves to play and is great with kids.",
+                price: 250.00,
+                image: "buddy.jpg",
+                details: {
+                    age: "2 years",
+                    breed: "Labrador Retriever",
+                    gender: "Male",
+                    vaccinationStatus: "Up-to-date",
+                    temperament: "Friendly, Active"
+                }
+            };
+
+            document.getElementById('animal-name').textContent = animal.name;
+            document.getElementById('animal-description').textContent = animal.description;
+            document.getElementById('animal-price').textContent = `$${animal.price.toFixed(2)}`;
+            document.getElementById('animal-image').src = animal.image;
+
+            const additionalDetails = document.getElementById('additional-details');
+            additionalDetails.innerHTML = `
+                <li>Age: ${animal.details.age}</li>
+                <li>Breed: ${animal.details.breed}</li>
+                <li>Gender: ${animal.details.gender}</li>
+                <li>Vaccination Status: ${animal.details.vaccinationStatus}</li>
+                <li>Temperament: ${animal.details.temperament}</li>
+            `;
+
+            document.getElementById('buy-button').addEventListener('click', () => {
+                alert(`You have selected to buy ${animal.name}.`);
+                // Redirect to payment page or add to cart functionality can be added here
+            });
+        });
+    </script> -->
+</body>
+</html>

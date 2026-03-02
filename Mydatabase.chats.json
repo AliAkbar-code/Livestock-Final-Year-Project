@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "672b21550cebbd1a43e79d5d"
+  },
+  "doctorId": {
+    "$oid": "66defc9320f9d48cdd12beb5"
+  },
+  "message": "hi",
+  "sender": "user",
+  "timestamp": {
+    "$date": "2024-11-06T07:57:09.821Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,405 @@
+<style>
+    /* General Cart Container */
+#cart-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#cart-header h2 {
+    font-size: 1.8em;
+    color: #333;
+}
+
+#cart-summary {
+    text-align: right;
+}
+
+#cart-summary h4 {
+    font-size: 1.5em;
+    color: #007bff;
+}
+
+.btn-success {
+    padding: 10px 15px;
+    font-size: 1em;
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Cart Item Styling */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cart-item-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.cart-item p {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.cart-item p strong {
+    font-weight: 600;
+}
+
+.cart-item button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    border: none;
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cart-item button:hover {
+    background-color: #c82333;
+}
+
+/* Quantity Buttons */
+.cart-item .btn-outline-secondary {
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    color: #495057;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0 5px;
+}
+
+.cart-item .btn-outline-secondary:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+/* Payment Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.modal-content .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.modal-content .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #000;
+}
+
+</style>
+<div id="cart-container">
+    <div id="cart-header">
+        <h2>Your Cart</h2>
+        <div id="cart-summary">
+            <h4>Total Price: $<span id="total-price">0.00</span></h4>
+            <button id="proceed-to-payment" class="btn btn-success">Proceed to Payment</button>
+        </div>
+    </div>
+    <div id="cart-items"></div>
+</div>
+
+<!-- Payment Form Modal (Initially Hidden) -->
+<div id="payment-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Enter Your Details</h2>
+        <form id="payment-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required><br><br>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required><br><br>
+
+            <!-- Payment Method Options -->
+            <label for="payment-method">Payment Method:</label>
+            <select id="payment-method" name="paymentMethod" required>
+                <option value="" disabled selected>Select a payment method</option>
+                <option value="creditCard">Credit Card</option>
+                <option value="jazzCash">JazzCash</option>
+                <option value="easyPaisa">EasyPaisa</option>
+                <option value="cashOnDelivery">Cash on Delivery</option>
+            </select><br><br>
+
+            <!-- Credit Card Fields -->
+            <div id="credit-card-fields" style="display: none;">
+                <label for="card-name">Card Name:</label>
+                <input type="text" id="card-name" name="cardName"><br><br>
+
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="cardNumber"><br><br>
+
+                <label for="expiry-date">Expiry Date:</label>
+                <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY"><br><br>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv"><br><br>
+            </div>
+
+            <!-- JazzCash and EasyPaisa Fields -->
+            <div id="jazzcash-easypaisa-fields" style="display: none;">
+                <label for="service-name">Name:</label>
+                <input type="text" id="service-name" name="serviceName"><br><br>
+
+                <label for="service-number">Number:</label>
+                <input type="text" id="service-number" name="serviceNumber"><br><br>
+
+                <label for="id-last4">ID Card (Last 4 Digits):</label>
+                <input type="text" id="id-last4" name="idLast4"><br><br>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm and Pay</button>
+        </form>
+    </div>
+</div>
+
+<!-- CSS for Modal (unchanged) -->
+<style>
+    /* Existing CSS */
+</style>
+
+<!-- JavaScript -->
+<script>
+    function displayCartItems() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItemsContainer = document.getElementById('cart-items');
+        cartItemsContainer.innerHTML = '';
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            document.getElementById('cart-summary').style.display = 'none';
+        } else {
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <p><strong>${item.name}</strong></p>
+                        <p>Price: $${item.price}</p>
+                        <p>Quantity:
+                            <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 'decrease')">-</button>
+                            <span id="quantity-${index}">${item.quantity}</span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 'increase')">+</button>
+                        </p>
+                        <p><strong>Item Total: $<span id="item-total-${index}">${itemTotal.toFixed(2)}</span></strong></p>
+                        <button class="btn btn-danger" onclick="removeFromCart(${index})">Remove</button>
+                    </div>
+                    <hr>
+                `;
+            });
+
+            document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+            document.getElementById('cart-summary').style.display = 'block';
+        }
+    }
+
+    function updateTotalPrice() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let totalPrice = 0;
+
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+            document.getElementById(`item-total-${index}`).innerText = itemTotal.toFixed(2);
+        });
+
+        document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+    }
+
+    function updateQuantity(index, action) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+
+        if (action === 'increase') {
+            cart[index].quantity += 1;
+        } else if (action === 'decrease' && cart[index].quantity > 1) {
+            cart[index].quantity -= 1;
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+        updateTotalPrice();
+    }
+
+    function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+        updateTotalPrice();
+    }
+
+    document.addEventListener('DOMContentLoaded', displayCartItems);
+
+    document.getElementById('proceed-to-payment').addEventListener('click', function() {
+        const modal = document.getElementById('payment-modal');
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        if (cart.length === 0) {
+            alert("Your cart is empty.");
+            return;
+        }
+
+        modal.style.display = "block";
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeModal = document.querySelector('.close');
+        const paymentForm = document.getElementById('payment-form');
+        const paymentMethod = document.getElementById('payment-method');
+
+        paymentMethod.addEventListener('change', function() {
+            document.getElementById('credit-card-fields').style.display = paymentMethod.value === 'creditCard' ? 'block' : 'none';
+            document.getElementById('jazzcash-easypaisa-fields').style.display = paymentMethod.value === 'jazzCash' || paymentMethod.value === 'easyPaisa' ? 'block' : 'none';
+        });
+
+        closeModal.addEventListener('click', function() {
+            document.getElementById('payment-modal').style.display = "none";
+        });
+
+        paymentForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalPrice = document.getElementById('total-price').innerText;
+
+            const userDetails = {
+                name: document.getElementById('name').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                paymentMethod: paymentMethod.value,
+                cardDetails: paymentMethod.value === 'creditCard' ? {
+                    cardName: document.getElementById('card-name').value,
+                    cardNumber: document.getElementById('card-number').value,
+                    expiryDate: document.getElementById('expiry-date').value,
+                    cvv: document.getElementById('cvv').value
+                } : null,
+                serviceDetails: paymentMethod.value === 'jazzCash' || paymentMethod.value === 'easyPaisa' ? {
+                    serviceName: document.getElementById('service-name').value,
+                    serviceNumber: document.getElementById('service-number').value,
+                    idLast4: document.getElementById('id-last4').value
+                } : null
+            };
+
+            fetch('/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cart,
+                    totalPrice,
+                    userDetails
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Order placed successfully!");
+                    localStorage.removeItem('cart');
+                    window.location.href = '/paymentcomplete';
+                } else {
+                    alert(`There was an issue placing your order: ${data.message}`);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>

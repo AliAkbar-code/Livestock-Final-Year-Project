@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Doctor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        #chat-box {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #fafafa;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        #chat-box p {
+            margin: 10px 0;
+        }
+
+        #chat-box p strong {
+            color: #0056b3;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        #messageInput {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        #sendMessage {
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #sendMessage:hover {
+            background-color: #218838;
+        }
+
+        .empty-chat {
+            color: #999;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <h2>Chat with Doctor</h2>
+        <div id="chat-box">
+            <!-- Chat messages will appear here -->
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" id="messageInput" placeholder="Type your message" />
+            <button id="sendMessage">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const doctorId = "<%= doctorId %>";
+        const userId = "<%= User %>";  // Use correct variable for user ID
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageButton = document.getElementById('sendMessage');
+        const chatBox = document.getElementById('chat-box');
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+
+            if (!message) {
+                alert('Please type a message.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        doctorId,
+                        userId,
+                        message,
+                        sender: 'user' // Set the sender to 'user'
+                    }),
+                });
+
+                if (response.ok) {
+                    // Append the message to the chat box
+                    chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+                    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+                    messageInput.value = ''; // Clear input field
+                } else {
+                    const data = await response.json();
+                    console.error('Error sending message:', data.error);
+                }
+            } catch (error) {
+                console.error('Failed to send message:', error);
+            }
+        }
+
+        sendMessageButton.addEventListener('click', sendMessage);
+// User Chat Page JavaScript
+async function loadChat() {
+    try {
+        // Fetch messages using only `doctorId` parameter
+        const response = await fetch(`/chat/messages?doctorId=${doctorId}`);
+        const data = await response.json();
+
+        if (response.ok && data.messages && data.messages.length > 0) {
+            chatBox.innerHTML = '';  // Clear chat box
+
+            data.messages.forEach(msg => {
+                const sender = msg.sender === 'user' ? 'You' : 'Doctor';
+                chatBox.innerHTML += `<p><strong>${sender}:</strong> ${msg.message}</p>`;
+            });
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+        } else {
+            chatBox.innerHTML = `<p class="empty-chat">No messages yet. Start the conversation!</p>`;
+        }
+    } catch (error) {
+        console.error('Failed to load chat:', error);
+    }
+}
+
+window.onload = loadChat;
+
+
+    </script>
+</body>
+
+</html>

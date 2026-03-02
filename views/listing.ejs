@@ -1,0 +1,28 @@
+<div class="row" id="marketplace">
+  <% animals.forEach(animal => { %>
+      <div class="col-md-4 mb-4">
+          <div class="card anm">
+              <img src="/image/<%= animal._id %>" class="card-img-top" alt="<%= animal.name %>">
+              <div class="card-body ">
+                  <h5 class="card-title"><%= animal.name %></h5>
+                  <p class="card-text">
+                      <strong>Breed:</strong> <%= animal.breed %><br>
+                      <strong>Age:</strong> <%= animal.age %> Years<br>
+                      <strong>Color:</strong> <%= animal.color %><br>
+                      <strong>Location:</strong> <%= animal.location %><br>
+                      <strong>Price:</strong> $<%= animal.price %>
+                  </p>
+                  <button class="btn btn-primary add-to-cart" 
+data-animal-id="<%= animal._id %>" 
+data-animal-name="<%= animal.name %>" 
+data-animal-price="<%= animal.price %>" 
+data-animal-image="/image/<%= animal._id %>">
+Add to Cart
+</button>
+
+               <a href="/lisitng/<%= animal._id %>">   <button class="btn btn-secondary">Details</button></a>
+              </div>
+          </div>
+      </div>
+  <% }) %>
+</div>
