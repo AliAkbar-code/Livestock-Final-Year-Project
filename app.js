@@ -44,7 +44,6 @@ app.use(session({
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   serverSelectionTimeoutMS: 5000,
-  ssl: true,
   tlsInsecure: true,
 })
   .then(() => console.log('Connected to MongoDB'))
